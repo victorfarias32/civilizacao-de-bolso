@@ -2,6 +2,76 @@ import { z } from "zod";
 
 const integer = z.number().int().nonnegative().max(Number.MAX_SAFE_INTEGER);
 const gauge = z.number().int().min(0).max(100);
+export const PATHS = [
+  "nature",
+  "knowledge",
+  "spirit",
+  "order",
+  "voyage",
+  "memory",
+] as const;
+export const ENDINGS = [
+  "extinction",
+  "legacy",
+  "symbiosis",
+  "stellar",
+  "ascension",
+  "utopia",
+  "migration",
+  "archive",
+  "cosmic",
+] as const;
+export type PathKey = (typeof PATHS)[number];
+export type Ending = (typeof ENDINGS)[number];
+export const destinySchema = z
+  .object({
+    scores: z
+      .object({
+        nature: gauge,
+        knowledge: gauge,
+        spirit: gauge,
+        order: gauge,
+        voyage: gauge,
+        memory: gauge,
+      })
+      .strict(),
+    pending: z.string().min(1).max(40).nullable(),
+    resolved: z
+      .array(
+        z
+          .object({
+            id: z.string().min(1).max(40),
+            option: z.string().min(1).max(30),
+            cycle: integer.max(160),
+          })
+          .strict(),
+      )
+      .max(24),
+    nextAt: integer.max(168),
+    unlocked: z
+      .array(
+        z
+          .string()
+          .regex(/^(nature|knowledge|spirit|order|voyage|memory):(24|48)$/),
+      )
+      .max(12),
+  })
+  .strict();
+export type Destiny = z.infer<typeof destinySchema>;
+export const emptyDestiny = (): Destiny => ({
+  scores: {
+    nature: 0,
+    knowledge: 0,
+    spirit: 0,
+    order: 0,
+    voyage: 0,
+    memory: 0,
+  },
+  pending: null,
+  resolved: [],
+  nextAt: 4,
+  unlocked: [],
+});
 export const policySchema = z
   .object({
     work: z.enum(["moderate", "intensive"]),
@@ -16,8 +86,14 @@ export const commandSchema = z
     id: integer.positive(),
     targetCycle: integer.positive().max(160),
     sequence: integer,
-    key: z.enum(["work", "distribution", "extraction"]),
-    value: z.string().max(20),
+    key: z.enum([
+      "work",
+      "distribution",
+      "extraction",
+      "decision",
+      "destination",
+    ]),
+    value: z.string().max(60),
   })
   .strict();
 export type Command = z.infer<typeof commandSchema>;
@@ -61,6 +137,8 @@ const eventSchema = z
       "tradition",
       "era",
       "ending",
+      "decision",
+      "discovery",
     ]),
     title: z.string().max(120),
     text: z.string().max(1200),
@@ -82,15 +160,16 @@ const effectSchema = z
   .strict();
 export const gameSchema = z
   .object({
-    schemaVersion: z.literal(1),
-    rulesVersion: z.literal("0.1.0"),
+    schemaVersion: z.literal(2),
+    rulesVersion: z.literal("0.2.0"),
     scenarioId: z.literal("first-generation"),
     name: z.string().min(1).max(40),
     seed: integer.max(0xffffffff),
     rngState: integer.positive().max(0xffffffff),
     cycle: integer.max(160),
     status: z.enum(["running", "ended"]),
-    ending: z.enum(["extinction", "legacy"]).nullable(),
+    ending: z.enum(ENDINGS).nullable(),
+    destiny: destinySchema,
     resources: z
       .object({
         food: integer.max(1_000_000_000),

@@ -58,3 +58,7 @@ Estados: pendente → em andamento → concluída; usar bloqueada com motivo e p
 ## Backlog após v0.1
 
 Instituições, facções, pesquisa, tecnologias, novas eras, expansão espacial, ascensão da alma, simbiose profunda, destinos secretos e cenários com civilizações importadas. Não fazem parte das 30 tarefas atuais.
+
+## Expansão 0.2.0
+
+[T31 — Conselhos, destinos e paisagens combinadas](T31.md): nove finais e caminhos extraordinários implementados como decisões e condições. Substitui a exclusão desses destinos no backlog original; pesquisa extensa, facções e novas eras permanecem futuras.

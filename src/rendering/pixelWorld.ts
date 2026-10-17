@@ -1,3 +1,4 @@
+import { drawProjects, drawDestination } from "./scenarios";
 import { type Game, type Person, living } from "../simulation/model";
 import { appearance, type Appearance } from "./appearance";
 
@@ -778,6 +779,7 @@ export function createScene(g: Game): PixelScene {
     rect(o, 242, 207, 3, 2, "#b5bbaa");
     rect(o, 252, 204, 2, 6, "#c2a06a");
   }
+  drawProjects(o, g);
   return {
     ground,
     props,
@@ -891,7 +893,12 @@ export function drawFrame(
     }
   c.drawImage(scene.props, 0, 0);
   const hits: Hit[] = [],
-    villagers = living(g)
+    villagers = (
+      g.ending &&
+      ["ascension", "stellar", "migration", "cosmic"].includes(g.ending)
+        ? []
+        : living(g)
+    )
       .map((person, i) => {
         const n = hash(i, 23, g.seed),
           home = scene.homes[i % Math.max(1, scene.homes.length)] || {
@@ -1104,5 +1111,6 @@ export function drawFrame(
         rect(c, x + 12, y - 2, 44, 7, "#b6c4b016");
       }
   }
+  drawDestination(c, g, t);
   return hits;
 }

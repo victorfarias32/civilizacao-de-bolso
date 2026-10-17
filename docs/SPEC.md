@@ -1,5 +1,7 @@
 # Especificação de produto — v0.1
 
+Atualização 0.2.0: os novos conselhos, nove finais e paisagens combinadas estão implementados e especificados em [Destinos e paisagens](DESTINOS.md). Essa especificação substitui as limitações a dois finais descritas no plano original abaixo.
+
 Estado: primeira implementação jogável disponível no código. Ver evidências em [relatório de validação](validacao/RELEASE-v0.1.md); aceite em Android físico permanece pendente.
 
 ## Escopo e precedência

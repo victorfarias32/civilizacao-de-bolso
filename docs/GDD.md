@@ -1,5 +1,7 @@
 # Game Design Document — Civilização de Bolso
 
+Atualização 0.2.0: os novos conselhos, nove finais e paisagens combinadas estão implementados e especificados em [Destinos e paisagens](DESTINOS.md). Essa especificação substitui as limitações a dois finais descritas no plano original abaixo.
+
 Versão 0.1 — proposta inicial. Os sistemas da primeira versão estão implementados; destinos e eras avançados continuam como visão futura. Números, ritmo e condições exigem validação por protótipos.
 
 A [especificação executável](SPEC.md), as [regras iniciais](specs/SIMULACAO.md) e as [30 tarefas](tasks/README.md) detalham esta visão. Os valores antes pendentes foram propostos como hipóteses de implementação, não como resultados já validados.

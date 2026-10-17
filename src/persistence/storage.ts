@@ -1,3 +1,6 @@
+import { z } from "zod";
+import { decisionById, destinationChecks } from "../simulation/destinies";
+import { emptyDestiny } from "../simulation/model";
 import {
   gameSchema,
   type Game,
@@ -9,12 +12,32 @@ export const MAX_BYTES = 5 * 1024 * 1024;
 export function validateSave(
   value: unknown,
 ): { ok: true; game: Game } | { ok: false; error: string } {
-  const parsed = gameSchema.safeParse(value);
+  const legacySchema = gameSchema
+    .omit({ destiny: true })
+    .extend({
+      schemaVersion: z.literal(1),
+      rulesVersion: z.literal("0.1.0"),
+      ending: z.enum(["legacy", "extinction"]).nullable(),
+    });
+  const legacy = legacySchema.safeParse(value);
+  const parsed = gameSchema.safeParse(
+    legacy.success
+      ? {
+          ...legacy.data,
+          schemaVersion: 2,
+          rulesVersion: "0.2.0",
+          destiny: {
+            ...emptyDestiny(),
+            nextAt: Math.min(168, Math.max(4, legacy.data.cycle + 1)),
+          },
+        }
+      : value,
+  );
   if (!parsed.success)
     return {
       ok: false,
       error:
-        "Arquivo incompatível ou incompleto. Esta versão aceita apenas partidas 0.1.0.",
+        "Arquivo incompatível ou incompleto. Esta versão aceita partidas 0.1.0 e 0.2.0.",
     };
   const g = parsed.data,
     people = new Set(g.inhabitants.map((p) => p.id)),
@@ -54,14 +77,45 @@ export function validateSave(
     g.commandLog.some(
       (c) =>
         c.targetCycle > g.cycle ||
-        !policySchema.safeParse({ ...g.policies, [c.key]: c.value }).success,
+        !(c.key === "decision"
+          ? (() => {
+              const [id, o, ...extra] = c.value.split("/");
+              return (
+                !extra.length &&
+                decisionById(id)?.options.some((x) => x.id === o) &&
+                g.destiny.resolved.some(
+                  (r) =>
+                    r.id === id && r.option === o && r.cycle === c.targetCycle,
+                )
+              );
+            })()
+          : c.key === "destination"
+            ? c.value === g.ending
+            : policySchema.safeParse({ ...g.policies, [c.key]: c.value })
+                .success),
     ) ||
+    new Set(g.destiny.resolved.map((r) => r.id)).size !==
+      g.destiny.resolved.length ||
+    new Set(g.destiny.unlocked).size !== g.destiny.unlocked.length ||
+    g.destiny.resolved.some(
+      (r) =>
+        r.cycle > g.cycle ||
+        !decisionById(r.id)?.options.some((o) => o.id === r.option),
+    ) ||
+    (g.destiny.pending !== null &&
+      (!decisionById(g.destiny.pending) ||
+        g.status === "ended" ||
+        g.destiny.resolved.some((r) => r.id === g.destiny.pending))) ||
     (g.status === "running" &&
       (g.ending !== null || g.cycle >= 160 || !alive)) ||
     (g.status === "ended" &&
       (g.ending === null ||
         (g.ending === "extinction" && alive !== 0) ||
-        (g.ending === "legacy" && (g.cycle !== 160 || !alive))));
+        (g.ending !== "extinction" && !alive) ||
+        (g.ending === "legacy" && g.cycle !== 160) ||
+        (g.ending !== null &&
+          !["legacy", "extinction"].includes(g.ending) &&
+          !destinationChecks(g, g.ending).every((c) => c.ok))));
   if (bad)
     return {
       ok: false,

@@ -1,5 +1,7 @@
 # Contrato da simulação — regras iniciais
 
+Atualização 0.2.0: os novos conselhos, nove finais e paisagens combinadas estão implementados e especificados em [Destinos e paisagens](../DESTINOS.md). Essa especificação substitui as limitações a dois finais descritas no plano original abaixo.
+
 Estado: regras da implementação 0.1.0, com testes automatizados e lote inicial de balanceamento. Referências a M1/M2 registram a divisão planejada; o aplicativo atual executa o conjunto completo. Centralizar parâmetros em conteúdo versionado; alterações exigem registrar motivo e repetir os testes afetados.
 
 ## 1. Estado e funções

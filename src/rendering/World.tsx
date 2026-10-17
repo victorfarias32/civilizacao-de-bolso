@@ -1,3 +1,4 @@
+import { mixedPaths, PATH_INFO, destination } from "../simulation/destinies";
 import { useEffect, useRef, useState } from "react";
 import type { Game } from "../simulation/model";
 import { appearance } from "./appearance";
@@ -65,6 +66,8 @@ export function World({
   return (
     <div
       className={`pixel-world season-${art.season} ${art.extinct ? "world-extinct" : ""} ${art.legacy ? "world-legacy" : ""} ${zoomed ? "is-zoomed" : ""}`}
+      data-paths={mixedPaths(game).join(",")}
+      data-ending={game.ending || "none"}
       data-season={art.season}
       data-visual-events={art.cues.map((c) => c.type).join(",")}
     >
@@ -99,22 +102,34 @@ export function World({
         />
         <div className="season-plaque">
           <span>
-            {art.extinct
-              ? "O ÚLTIMO SILÊNCIO"
-              : art.legacy
-                ? "A NOITE DO LEGADO"
-                : art.palette.name.toLocaleUpperCase("pt-BR")}
+            {game.ending && !["legacy", "extinction"].includes(game.ending)
+              ? destination(game.ending).title.toLocaleUpperCase("pt-BR")
+              : art.extinct
+                ? "O ÚLTIMO SILÊNCIO"
+                : art.legacy
+                  ? "A NOITE DO LEGADO"
+                  : art.palette.name.toLocaleUpperCase("pt-BR")}
           </span>
           <small>
-            {art.extinct
-              ? "O MUNDO GUARDA SEUS VESTÍGIOS"
-              : art.legacy
-                ? "40 ANOS · LUZES PARA QUEM FICOU"
-                : art.palette.mood}
+            {game.ending && !["legacy", "extinction"].includes(game.ending)
+              ? "UMA HISTÓRIA · MUITOS CAMINHOS"
+              : art.extinct
+                ? "O MUNDO GUARDA SEUS VESTÍGIOS"
+                : art.legacy
+                  ? "40 ANOS · LUZES PARA QUEM FICOU"
+                  : art.palette.mood}
           </small>
         </div>
         {art.drought && <span className="world-weather">ESTIAGEM</span>}
       </div>
+      {mixedPaths(game).length > 0 && (
+        <div className="world-influences">
+          Paisagem:{" "}
+          {mixedPaths(game)
+            .map((k) => PATH_INFO[k].name)
+            .join(" + ")}
+        </div>
+      )}
       {art.cues.length > 0 && (
         <div className="world-signs" aria-label="Vestígios visíveis no mundo">
           {art.cues.slice(0, 3).map((c) => (

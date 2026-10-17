@@ -163,7 +163,7 @@ test("tempo pausa quando a página é ocultada", async ({ page }) => {
 
 test("interface oferece rótulos e contraste acessíveis", async ({ page }) => {
   await found(page);
-  for (const name of ["Crônica", "Pessoas", "Políticas", "Partida"]) {
+  for (const name of ["Crônica", "Pessoas", "Políticas", "Destinos", "Partida"]) {
     await page.getByRole("button", { name: new RegExp(name) }).click();
     const result = await new AxeBuilder({ page })
       .withTags(["wcag2a", "wcag2aa", "wcag21aa"])

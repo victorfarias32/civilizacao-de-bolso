@@ -9,6 +9,16 @@ export const EVENT_VISUALS: Record<
   HistoryEvent["type"],
   { label: string; detail: string; lasting: boolean }
 > = {
+  decision: {
+    label: "Uma escolha ganha forma",
+    detail: "Projetos e paisagens refletem as decisões do conselho.",
+    lasting: true,
+  },
+  discovery: {
+    label: "O mundo se transforma",
+    detail: "Uma influência acumulada transforma os projetos da comunidade.",
+    lasting: true,
+  },
   foundation: {
     label: "Um lugar para começar",
     detail: "Acampamento, fogueira e estandartes da fundação.",

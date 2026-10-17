@@ -1,3 +1,4 @@
+import { Council, DestinyPanel } from "./DestinyPanel";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useRegisterSW } from "virtual:pwa-register/react";
 import {
@@ -25,7 +26,7 @@ import {
 } from "./persistence/storage";
 import { World } from "./rendering/World";
 
-type Panel = "chronicle" | "people" | "policies" | "settings";
+type Panel = "chronicle" | "people" | "policies" | "settings" | "destiny";
 const POLICY_HELP = {
   work: {
     title: "Ritmo de trabalho",
@@ -65,6 +66,8 @@ const TRADITION = {
   shelter: "Memória do abrigo",
 };
 const EVENT_ICON: Record<HistoryEvent["type"], string> = {
+  decision: "⚑",
+  discovery: "✷",
   foundation: "✧",
   policy: "⚑",
   scarcity: "!",
@@ -170,28 +173,44 @@ function App() {
       currentEffect = false;
     };
   }, [game]);
-  const step = useCallback(() => {
-    const g = gameRef.current;
-    if (!g || g.status === "ended") return;
-    const entries = Object.entries(pendingRef.current) as [PolicyKey, string][];
-    const nextId = Math.max(0, ...g.commandLog.map((c) => c.id)) + 1;
-    const commands: Command[] = entries.map(([key, value], i) => ({
-      id: nextId + i,
-      sequence: i,
-      targetCycle: g.cycle + 1,
-      key,
-      value,
-    }));
-    const next = advanceSeason(g, commands).state;
-    pendingRef.current = {};
-    setPending({});
-    gameRef.current = next;
-    setGame(next);
-    if (next.status === "ended") {
-      setRunning(false);
-      setShowEnding(true);
-    }
-  }, []);
+  const executeStep = useCallback(
+    (extra?: { key: "decision" | "destination"; value: string }) => {
+      const g = gameRef.current;
+      if (!g || g.status === "ended") return;
+      const entries = Object.entries(pendingRef.current) as [
+        PolicyKey,
+        string,
+      ][];
+      const nextId = Math.max(0, ...g.commandLog.map((c) => c.id)) + 1;
+      const commands: Command[] = entries.map(([key, value], i) => ({
+        id: nextId + i,
+        sequence: i,
+        targetCycle: g.cycle + 1,
+        key,
+        value,
+      }));
+      if (extra)
+        commands.push({
+          ...extra,
+          id: nextId + entries.length,
+          sequence: entries.length,
+          targetCycle: g.cycle + 1,
+        });
+      const next = advanceSeason(g, commands).state;
+      if (next.destiny.pending && next.destiny.pending !== g.destiny.pending)
+        setRunning(false);
+      pendingRef.current = {};
+      setPending({});
+      gameRef.current = next;
+      setGame(next);
+      if (next.status === "ended") {
+        setRunning(false);
+        setShowEnding(true);
+      }
+    },
+    [],
+  );
+  const step = useCallback(() => executeStep(), [executeStep]);
   useEffect(() => {
     if (!running || !game || game.status === "ended") return;
     const id = window.setInterval(step, 10000 / speed);
@@ -443,6 +462,12 @@ function App() {
                     : "À margem do desconhecido"}
                 </span>
               </div>
+              {game && game.status === "running" && (
+                <Council
+                  game={game}
+                  onChoose={(value) => executeStep({ key: "decision", value })}
+                />
+              )}
               <World
                 game={current}
                 selected={selected}
@@ -611,6 +636,7 @@ function App() {
                   ["chronicle", "Crônica", "✧"],
                   ["people", "Pessoas", "♟"],
                   ["policies", "Políticas", "⚑"],
+                  ["destiny", "Destinos", "✷"],
                   ["settings", "Partida", "◈"],
                 ] as const
               ).map(([id, label, icon]) => (
@@ -638,9 +664,17 @@ function App() {
                       ? "Quem faz este mundo"
                       : panel === "policies"
                         ? "As regras que nos guiam"
-                        : "Guardar e recomeçar"}
+                        : panel === "destiny"
+                          ? "O que podemos nos tornar"
+                          : "Guardar e recomeçar"}
                 </h2>
               </div>
+              {panel === "destiny" && (
+                <DestinyPanel
+                  game={current}
+                  onEnd={(value) => executeStep({ key: "destination", value })}
+                />
+              )}
               {panel === "chronicle" && (
                 <>
                   {game && (
@@ -841,8 +875,9 @@ function App() {
                 <div className="settings">
                   <p>
                     O cenário acompanha até <strong>40 anos</strong>. Extinção
-                    pode encerrar a história antes. Não há crescimento infinito
-                    nem progresso enquanto o aplicativo está fechado.
+                    ou um destino preparado pode encerrar a história antes. Não
+                    há crescimento infinito nem progresso enquanto o aplicativo
+                    está fechado.
                   </p>
                   <dl className="save-meta">
                     <div>

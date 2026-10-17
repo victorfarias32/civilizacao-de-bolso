@@ -1,5 +1,15 @@
 import {
+  applyDecision,
+  offerDecision,
+  readyDestinations,
+  chooseEnding,
+  destination,
+  hybridParagraphs,
+} from "./destinies";
+import {
   type Game,
+  type Ending,
+  emptyDestiny,
   type Person,
   type Command,
   type HistoryEvent,
@@ -105,8 +115,8 @@ export function createGame(
 ): Game {
   const seed = (config.seed ?? 42) >>> 0;
   const g: Game = {
-    schemaVersion: 1,
-    rulesVersion: "0.1.0",
+    schemaVersion: 2,
+    rulesVersion: "0.2.0",
     scenarioId: "first-generation",
     name: config.name?.trim().slice(0, 40) || "Vale das Pequenas Luzes",
     seed,
@@ -114,6 +124,7 @@ export function createGame(
     cycle: 0,
     status: "running",
     ending: null,
+    destiny: emptyDestiny(),
     resources: { food: 2400, wood: 400 },
     environment: { wildFood: 3600, fertility: 100, forest: 100 },
     inhabitants: [],
@@ -215,6 +226,7 @@ export function allocate(
 }
 
 function applyCommands(g: Game, commands: Command[], cycle: number) {
+  let requested: Ending | undefined;
   const seen = new Set(g.commandLog.map((c) => c.id));
   for (const raw of [...commands].sort(
     (a, b) => a.sequence - b.sequence || a.id - b.id,
@@ -227,6 +239,21 @@ function applyCommands(g: Game, commands: Command[], cycle: number) {
       g.commandLog.length >= 1000
     )
       continue;
+    if (raw.key === "decision" || raw.key === "destination") {
+      if (
+        raw.key === "decision"
+          ? applyDecision(g, raw.value, cycle)
+          : readyDestinations(g).some((d) => d.id === raw.value)
+      ) {
+        seen.add(raw.id);
+        g.commandLog.push({ ...raw });
+        if (raw.key === "destination") {
+          requested = raw.value as Ending;
+          break;
+        }
+      }
+      continue;
+    }
     const policies = policySchema.safeParse({
       ...g.policies,
       [raw.key]: raw.value,
@@ -245,6 +272,7 @@ function applyCommands(g: Game, commands: Command[], cycle: number) {
       { key: raw.key, value: raw.value, commandId: raw.id },
     );
   }
+  return requested;
 }
 
 export function advanceSeason(
@@ -256,7 +284,12 @@ export function advanceSeason(
     startHistory = g.history.length,
     cycle = g.cycle + 1,
     season = g.cycle % 4;
-  applyCommands(g, commands, cycle);
+  const requested = applyCommands(g, commands, cycle);
+  if (requested) {
+    g.cycle = cycle;
+    finish(g, requested);
+    return { state: g, events: g.history.slice(startHistory) };
+  }
   const people = living(g),
     pop = people.length;
   if (!pop) {
@@ -710,31 +743,25 @@ export function advanceSeason(
     );
   }
   g.cycle = cycle;
+  offerDecision(g);
   finish(g);
   return { state: g, events: g.history.slice(startHistory) };
 }
 
-function finish(g: Game) {
+function finish(g: Game, requested?: Ending) {
   if (g.status === "ended") return;
-  if (!living(g).length || g.cycle >= 160) {
+  if (!living(g).length || g.cycle >= 160 || requested) {
     g.status = "ended";
-    g.ending = living(g).length ? "legacy" : "extinction";
+    g.ending = !living(g).length ? "extinction" : requested || chooseEnding(g);
     g.effects = [];
-    emit(
-      g,
-      g.cycle,
-      "ending",
-      g.ending === "legacy" ? "O legado dos fundadores" : "O último silêncio",
-      g.ending === "legacy"
-        ? `Quarenta anos chegaram ao fim. ${living(g).length} pessoas permanecem para carregar a história de ${g.name}.`
-        : "Não restam habitantes. O mundo guarda os vestígios de quem passou por aqui.",
-      {
-        ending: g.ending,
-        population: living(g).length,
-        food: g.resources.food,
-        fertility: g.environment.fertility,
-      },
-    );
+    g.destiny.pending = null;
+    const d = destination(g.ending);
+    emit(g, g.cycle, "ending", d.title, d.story, {
+      ending: g.ending,
+      population: living(g).length,
+      food: g.resources.food,
+      fertility: g.environment.fertility,
+    });
   }
 }
 export function deriveSummary(g: Game) {
@@ -774,10 +801,20 @@ export function epilogue(g: Game): {
   const paragraphs = [
     g.ending === "extinction"
       ? `A história de ${g.name} durou ${g.cycle} estações. As casas ficaram, mas nenhuma pessoa permaneceu para acender suas luzes.`
-      : `Ao longo de quarenta anos, ${g.name} deixou de ser apenas um acampamento. Hoje, ${s.population} pessoas recebem o legado dos fundadores.`,
+      : `Ao longo de ${g.cycle} estações, ${g.name} deixou de ser apenas um acampamento. Hoje, ${s.population} pessoas recebem o legado dos fundadores.`,
     `A comunidade acolheu ${g.metrics.births} novas vidas e se despediu de ${g.metrics.deaths} pessoas. Sua maior população foi de ${g.metrics.peak} habitantes.`,
     `No encerramento, restaram ${g.resources.food} unidades de alimento. A fertilidade estava em ${g.environment.fertility}% e a floresta, em ${g.environment.forest}%.`,
   ];
+  if (g.ending) paragraphs.push(destination(g.ending).story);
+  paragraphs.push(...hybridParagraphs(g));
+  const decisions = g.history.filter((e) => e.type === "decision");
+  if (decisions.length)
+    paragraphs.push(
+      `Entre as decisões que moldaram o destino: ${decisions
+        .slice(-4)
+        .map((e) => e.text)
+        .join(" ")}`,
+    );
   const deaths = g.history.filter((e) => e.type === "death");
   if (g.ending === "extinction" && deaths.length)
     paragraphs.push(deaths[deaths.length - 1].text);
@@ -790,10 +827,7 @@ export function epilogue(g: Game): {
     "Não há uma próxima melhoria a comprar. Há uma história para guardar — e outro começo possível.",
   );
   return {
-    title:
-      g.ending === "extinction"
-        ? "O último silêncio"
-        : "O legado dos fundadores",
+    title: destination(g.ending || "legacy").title,
     paragraphs,
     labels,
   };
