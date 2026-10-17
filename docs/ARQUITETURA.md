@@ -2,6 +2,8 @@
 
 Estado: planejamento; ainda não há código de aplicativo. Implementar somente o necessário para cada marco.
 
+Detalhes executáveis: [spec](SPEC.md), [contrato da simulação](specs/SIMULACAO.md) e [tarefas](tasks/README.md). Os parâmetros antes pendentes têm valores iniciais propostos, ainda sem validação de balanceamento.
+
 ## Tecnologias
 
 - TypeScript: modelos, regras, conteúdo e interface.

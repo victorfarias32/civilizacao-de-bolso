@@ -2,6 +2,8 @@
 
 Versão 0.1 — proposta inicial. Nenhum sistema descrito neste documento está implementado. Números, ritmo e condições exigem validação por protótipos.
 
+A [especificação executável](SPEC.md), as [regras iniciais](specs/SIMULACAO.md) e as [30 tarefas](tasks/README.md) detalham esta visão. Os valores antes pendentes foram propostos como hipóteses de implementação, não como resultados já validados.
+
 ## 1. Visão e pilares
 
 O jogador orienta uma pequena sociedade, observa as consequências de suas regras e descobre o destino que ela construiu. A experiência deve despertar carinho pelos habitantes, curiosidade e responsabilidade. Crescimento é um meio; a história da civilização é o resultado.
@@ -43,7 +45,7 @@ A escolha de atividade considera condições físicas, urgências da comunidade,
 
 Nascimentos dependem de alimentação, saúde e capacidade de abrigo sustentadas. Mortes podem decorrer de fome, doença, exposição e envelhecimento. Regras demográficas e escalas de idade precisam de definição antes da implementação dessa etapa.
 
-Famílias completas, conversas e redes detalhadas de relações ficam fora da primeira versão. Haverá um limite técnico de população documentado; alimento e abrigo devem conter o crescimento antes dele. O limite ainda não foi escolhido.
+Famílias completas, conversas e redes detalhadas de relações ficam fora da primeira versão. Haverá um limite técnico de população documentado; alimento e abrigo devem conter o crescimento antes dele. A especificação propõe inicialmente 60 pessoas vivas, sujeito a medições no Android.
 
 ## 5. Recursos e ambiente
 

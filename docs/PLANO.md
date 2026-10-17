@@ -1,6 +1,8 @@
 # Plano de implementação
 
-Estado: documentação inicial salva; implementação ainda não iniciada. As etapas abaixo estão planejadas, não concluídas.
+Estado: planejamento detalhado salvo; implementação ainda não iniciada. As etapas abaixo estão planejadas, não concluídas.
+
+Execução: [plano de ação](ACAO.md), [spec](SPEC.md), [regras](specs/SIMULACAO.md), [validação](specs/VALIDACAO.md) e [30 tarefas](tasks/README.md). Parâmetros operacionais da primeira versão foram detalhados nesses documentos como hipóteses testáveis.
 
 ## Marco 1 — Uma decisão com consequências
 
