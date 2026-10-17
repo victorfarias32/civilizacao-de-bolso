@@ -1,6 +1,6 @@
 # Especificação de produto — v0.1
 
-Estado: especificação pronta para implementação; nenhuma funcionalidade está implementada. Esta entrega especifica o trabalho, não o executa.
+Estado: primeira implementação jogável disponível no código. Ver evidências em [relatório de validação](validacao/RELEASE-v0.1.md); aceite em Android físico permanece pendente.
 
 ## Escopo e precedência
 

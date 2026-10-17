@@ -1,6 +1,6 @@
 # Game Design Document — Civilização de Bolso
 
-Versão 0.1 — proposta inicial. Nenhum sistema descrito neste documento está implementado. Números, ritmo e condições exigem validação por protótipos.
+Versão 0.1 — proposta inicial. Os sistemas da primeira versão estão implementados; destinos e eras avançados continuam como visão futura. Números, ritmo e condições exigem validação por protótipos.
 
 A [especificação executável](SPEC.md), as [regras iniciais](specs/SIMULACAO.md) e as [30 tarefas](tasks/README.md) detalham esta visão. Os valores antes pendentes foram propostos como hipóteses de implementação, não como resultados já validados.
 

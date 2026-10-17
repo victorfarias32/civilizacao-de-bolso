@@ -1,6 +1,6 @@
 # Arquitetura técnica proposta
 
-Estado: planejamento; ainda não há código de aplicativo. Implementar somente o necessário para cada marco.
+Estado: arquitetura implementada na primeira versão jogável. Ver [validação](validacao/RELEASE-v0.1.md).
 
 Detalhes executáveis: [spec](SPEC.md), [contrato da simulação](specs/SIMULACAO.md) e [tarefas](tasks/README.md). Os parâmetros antes pendentes têm valores iniciais propostos, ainda sem validação de balanceamento.
 
@@ -72,7 +72,7 @@ Verificar funcionamento offline, recuperação de partidas, atualização do apl
 
 Fluxo: repositório GitHub → ambiente de desenvolvimento na nuvem acessado pelo navegador Android → prévia navegável → testes → publicação estática.
 
-Não pressupor terminal instalado no telefone ou computador pessoal. Ambiente de desenvolvimento na nuvem pode ter custo e limites próprios; isso é independente de o jogo funcionar localmente. Serviço de hospedagem e endereço público serão escolhidos quando houver uma versão testável.
+Não pressupor terminal instalado no telefone ou computador pessoal. Ambiente de desenvolvimento na nuvem pode ter custo e limites próprios; isso é independente de o jogo funcionar localmente. GitHub Pages tem workflow preparado, mas sua ativação foi recusada pela integração (HTTP 403). Sites é a alternativa de hospedagem da versão de teste.
 
 ## Validação
 
@@ -84,4 +84,4 @@ Testes de regras não substituem validação visual e de uso. Medir antes de int
 
 Manter README com estado real do projeto, comandos executáveis quando existirem e instruções de teste/publicação. Atualizar GDD e plano conforme decisões forem validadas.
 
-MIT é uma recomendação para o código, ainda não adotada. Registrar autoria e licença de cada recurso visual, fonte ou áudio antes de incluí-lo.
+O código e a arte original adotam MIT, conforme LICENSE. Registrar autoria e licença de cada recurso visual, fonte ou áudio antes de incluí-lo.

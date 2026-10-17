@@ -1,6 +1,6 @@
 # Plano de ação — da especificação à v0.1
 
-Estado desta entrega: plano, especificações e tarefas documentados. Nenhuma tarefa de implementação concluída.
+Estado: primeira versão jogável implementada e verificada automaticamente. Ver [tarefas](tasks/README.md) e [relatório](validacao/RELEASE-v0.1.md) para evidências e pendências.
 
 ## Resultado e fronteira
 
@@ -66,4 +66,4 @@ Ajustar balanceamento com registro de evidências. Alterações de escopo devem 
 
 ## Próxima ação concreta
 
-Executar [T01 — Estrutura executável](tasks/T01.md), seguida de T02 e T03. Não começar todos os sistemas simultaneamente.
+Validar a versão publicada em Android físico e resolver as pendências registradas no relatório. T01–T25 já possuem implementação e verificações automatizadas.

@@ -1,6 +1,6 @@
 # Contrato da simulação — regras iniciais
 
-Estado: contrato de implementação e hipóteses de balanceamento. Nenhum resultado descrito foi medido ainda. Centralizar parâmetros em conteúdo versionado; alterações exigem registrar motivo e repetir os testes afetados.
+Estado: regras da implementação 0.1.0, com testes automatizados e lote inicial de balanceamento. Referências a M1/M2 registram a divisão planejada; o aplicativo atual executa o conjunto completo. Centralizar parâmetros em conteúdo versionado; alterações exigem registrar motivo e repetir os testes afetados.
 
 ## 1. Estado e funções
 
@@ -65,14 +65,14 @@ Decisões usam os valores disponíveis na etapa correspondente; não recalcular 
 
 Criança (< 16 anos) não trabalha. Pessoas com saúde < 40 ou energia < 25 descansam obrigatoriamente. A partir de 65 anos, produtividade × 0,6. Demais pessoas ficam disponíveis.
 
-M1: disponíveis coletam alimento. M2: prioridade é alimento se reserva < duas vezes a demanda da população; depois até dois construtores se faltam vagas e há madeira; depois até dois coletores de madeira se estoque < 200; restantes coletam alimento.
+M1: disponíveis coletam alimento. M2: prioridade é alimento se reserva < duas vezes a demanda da população; depois um reparador para o abrigo mais danificado, ou até dois construtores se não há uma vaga de reserva e há madeira; depois até dois coletores de madeira se estoque < 200; restantes coletam alimento.
 
 Aptidão de coleta: × 1,1 para coletor; aptidão de construção: até dois pontos extras de integridade/progresso por trabalhador. Cooperativo: +2 de confiança somente quando surgir evento social associado, sem bônus invisível de produção. Cauteloso descansa quando energia < 35; ambicioso aceita trabalho até energia 20 se saúde >= 40. Registrar essas razões na ficha; segurança de saúde sempre prevalece.
 
-Produção-base por coletor/estação: 160 unidades de alimento ou 30 de madeira.
+Produção-base por coletor/estação: 440 unidades de alimento ou 30 de madeira.
 Multiplicadores: energia inicial / 100, saúde inicial / 100, aptidão, idade e trabalho (1 moderado; 1,35 intensivo). Madeira usa também extração (1 cuidadosa; 1,4 acelerada). Arredondar para baixo uma única vez por pessoa após multiplicadores.
 
-Alimento coletado nunca excede wildFood. Madeira coletada nunca excede forest × 20 no total da estação. Quando oferta limita, atribuir produção proporcionalmente às capacidades; restos inteiros por ID. Registrar contribuição real para distribuição.
+Alimento coletado nunca excede wildFood. Madeira coletada nunca excede forest × 20 no total da estação. Quando oferta limita, atribuir produção proporcionalmente às capacidades; restos inteiros pela maior fração e ID no empate. Registrar contribuição real para distribuição.
 
 Energia: coletar/construir custa 8 moderado ou 18 intensivo; repouso recupera 28. Limitar 0–100. Exaustão: energia final < 25 custa 4 de saúde. Trabalho intensivo não pode apenas multiplicar ganhos sem custo.
 
@@ -81,7 +81,7 @@ Energia: coletar/construir custa 8 moderado ou 18 intensivo; repouso recupera 28
 Demanda por estação: 100 por adulto, 60 por criança. Oferta é reserva após coleta. Cada pessoa recebe no máximo sua demanda; sobra fica estocada.
 
 Igualitária: distribuir proporcionalmente à demanda.
-Contribuição (M2): primeira passagem oferece até metade da demanda proporcionalmente; segunda passagem reparte o restante por peso 1 + contribuiçãoReal/100, respeitando demanda restante. Redistribuir excedentes de pessoas já atendidas; fechar restos por ID. Quando alimento é insuficiente, a soma distribuída deve ser exatamente a oferta.
+Contribuição (M2): primeira passagem oferece até metade da demanda proporcionalmente; segunda passagem reparte o restante por peso 1 + contribuiçãoReal/100, respeitando demanda restante. Redistribuir excedentes de pessoas já atendidas; fechar restos pela maior fração e ID no empate. Quando alimento é insuficiente, a soma distribuída deve ser exatamente a oferta.
 
 Déficit = 1 − recebido/demanda. Fome aumenta ceil(40 × déficit), ou diminui 20 se recebeu a demanda inteira; limitar 0–100. Saúde perde ceil(16 × déficit); fome final >= 80 custa mais 10. Com alimentação completa, fome final <= 20 e energia final >= 40, recuperar 4 de saúde.
 
@@ -91,7 +91,7 @@ Morrer quando saúde <= 0; interromper atividade e registrar causas numéricas d
 
 M1: regenerar 1600 de wildFood por estação antes da coleta, até 6000; sem floresta, fertilidade ou penalidade de exposição. Esse modelo mínimo mantém o núcleo observável. As regras sazonais e ambientais abaixo substituem essa regeneração constante no M2.
 
-M2: regenerar wildFood antes da coleta, limitado à capacidade = floor(6000 × fertility/100). Regeneração = floor(1600 × fatorEstação × fertility/100), com fatores primavera 1,2; verão 1; outono 0,8; inverno 0,35.
+M2: regenerar wildFood antes da coleta, limitado à capacidade = floor(6000 × fertility/100). Regeneração = floor(2000 × fatorEstação × fertility/100), com fatores primavera 1,2; verão 1; outono 0,8; inverno 0,35.
 
 Coleta de madeira reduz forest em ceil(madeiraColetada/20), até zero. Extração cuidadosa recupera forest em 3 por estação, acelerada em 1; aplicar recuperação após retirada. Alimento coletado com extração acelerada tem multiplicador adicional 1,15 e reduz fertility em 2 por estação em que há coleta. Cuidadosa recupera fertility em 1. Se forest < 25, perder mais 1 de fertility; limitar ambos 0–100. Aplicar nova capacidade de alimento na estação seguinte.
 
@@ -104,7 +104,7 @@ Distribuir vagas por idade < 16 primeiro, saúde crescente depois e ID no empate
 
 Envelhecer uma estação por ciclo; aplicar produtividade conforme idade na abertura do ciclo. A partir de 80 anos, morte por velhice determinística, registrada.
 
-No fim do inverno, considerar no máximo um nascimento: ao menos dois adultos de 18–49 anos, saúde >= 70; alimento para duas demandas atuais; vaga de abrigo livre; confiança >= 45; população abaixo de 60; nenhuma morte por fome nas últimas 4 estações. Se elegível, sorteio de 35%. Criança nasce com idade zero, saúde 100, energia 80 e fome zero; começa a consumir no próximo ciclo. Modelo de cuidadores coletivos, sem gênero ou parentesco simulado.
+No fim do inverno, considerar no máximo um nascimento: ao menos dois adultos de 18–49 anos, saúde >= 70; alimento para duas demandas atuais; vaga de abrigo livre; confiança >= 45; população abaixo de 60; nenhuma morte por fome nas últimas 4 estações. Exigir também quatro estações consecutivas de produção de alimento >= demanda atual + 60, para evitar nascimentos sustentados apenas por reservas antigas. Se elegível, sorteio de 35%. Criança nasce com idade zero, saúde 100, energia 80 e fome zero; começa a consumir no próximo ciclo. Modelo de cuidadores coletivos, sem gênero ou parentesco simulado.
 
 Confiança 0–100: −5 se houve morte por fome, −2 se diferença entre maior e menor cobertura alimentar > 0,5; +1 quando todos se alimentam e não há exposição, limitado a um ganho por estação, além dos efeitos sociais explicitamente registrados.
 
@@ -142,4 +142,4 @@ Evento histórico: id, cycle, type, actorIds, dados, evidence e relatedEventIds.
 
 ## 11. Pendências resolvidas pelo protótipo
 
-Os valores acima são implementáveis, mas não balanceados. T11, T16 e T21 devem medir sustentação, ciclos de trabalho/repouso, efeitos de política e alcance dos finais. Alterar parâmetros com relatório; não garantir que os valores atuais produzam partidas interessantes sem evidência.
+Os valores receberam um primeiro ajuste por evidências, registrado em ../validacao/RELEASE-v0.1.md e balance.json. Não equivalem a equilíbrio universal. Manter medições e avaliação em Android real antes de encerrar o aceite final.

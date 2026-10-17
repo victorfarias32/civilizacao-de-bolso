@@ -1,6 +1,6 @@
 # Plano de implementação
 
-Estado: planejamento detalhado salvo; implementação ainda não iniciada. As etapas abaixo estão planejadas, não concluídas.
+Estado: implementação da primeira versão jogável realizada. As seções abaixo preservam o plano; o [índice das tarefas](tasks/README.md) e o [relatório](validacao/RELEASE-v0.1.md) distinguem entregas verificadas de aceite físico pendente.
 
 Execução: [plano de ação](ACAO.md), [spec](SPEC.md), [regras](specs/SIMULACAO.md), [validação](specs/VALIDACAO.md) e [30 tarefas](tasks/README.md). Parâmetros operacionais da primeira versão foram detalhados nesses documentos como hipóteses testáveis.
 
