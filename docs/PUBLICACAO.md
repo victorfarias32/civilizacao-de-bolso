@@ -1,5 +1,11 @@
 # Publicação e operação
 
+## Atualização 0.2.0 — escolhas e destinos
+
+Publicada em 17/10/2026 às 11:23 UTC no mesmo endereço público. Versão Sites 3, deploy `appgdep_6ad35ab3a82c8191b3a8e970188a596a` confirmado `succeeded`. Versão salva: `appgprj_6ad34caa6d888191a2e31215878b1c8d~appgver_0bc1335a61088191b9b4d22465af5fb3`. Origem Sites: `3decabf367e6c28311b1c5eb536cba7115253dd2`. Implementação GitHub: `f0fc1ee`.
+
+Inclui nove destinos, 19 conselhos e cenários combinados. [Especificação](DESTINOS.md) e [validação](validacao/RELEASE-v0.2.md). Partidas 0.1.0 são migradas; não é necessário apagar dados. Se houver atualização pendente no PWA, usar **Guardar e atualizar**.
+
 ## Revisão visual publicada
 
 A revisão em pixel art foi publicada com sucesso em 17/10/2026 às 11:04 UTC, preservando o acesso público sem login.
