@@ -72,7 +72,7 @@ Verificar funcionamento offline, recuperação de partidas, atualização do apl
 
 Fluxo: repositório GitHub → ambiente de desenvolvimento na nuvem acessado pelo navegador Android → prévia navegável → testes → publicação estática.
 
-Não pressupor terminal instalado no telefone ou computador pessoal. Ambiente de desenvolvimento na nuvem pode ter custo e limites próprios; isso é independente de o jogo funcionar localmente. GitHub Pages tem workflow preparado, mas sua ativação foi recusada pela integração (HTTP 403). Sites é a alternativa de hospedagem da versão de teste.
+Não pressupor terminal instalado no telefone ou computador pessoal. Ambiente de desenvolvimento na nuvem pode ter custo e limites próprios; isso é independente de o jogo funcionar localmente. GitHub Pages tem workflow preparado, mas sua ativação foi recusada pela integração (HTTP 403). Sites hospeda a versão de teste, privada para o titular.
 
 ## Validação
 

@@ -1,12 +1,23 @@
 # Publicação e operação
 
-Estado: código implementado e testado; publicação Sites em andamento. O endereço só deve ser anunciado como funcional após confirmação do deploy.
+Estado: primeira versão jogável publicada com sucesso em 17/10/2026 às 10:29 UTC.
+
+Jogo: https://civilizacao-de-bolso-victor.espa-o-de-tr-2071.chatgpt.site
+
+Audiência: privada, preservando o acesso original da conta do titular. O código permanece público no GitHub.
+
+Deploy confirmado pelo Sites: appgdep_6ad34ddaf2fc81919a4710e5aa980306.
+Versão: appgprj_6ad34caa6d888191a2e31215878b1c8d~appgver_94a2f94e12cc81919912651b1475ac49.
+Commit de origem da hospedagem: b6ef983aff60205f399591f7fac5891b30984735.
+Commit principal da implementação no GitHub: 24d53bd72c3f4d3be8c738755a8715c17a26a028.
+
+O deploy usa build estática na raiz (`--base=/`) do mesmo código, com arquivo tar correspondente ao commit de origem enviado.
 
 ## GitHub Pages
 
 O workflow `.github/workflows/pages.yml` instala pelo lockfile, verifica tipos, testes, build e navegador e gera um artefato estático. A tentativa de habilitar Pages via API retornou HTTP 403: Resource not accessible by integration. Isso é limitação de permissão da integração, não falta de código.
 
-Se o titular escolher Pages posteriormente: Settings → Pages → Source: GitHub Actions; executar o workflow Publicar jogo. Não é necessário fornecer senha ou token à conversa. A base Vite já é `/civilizacao-de-bolso/`.
+Se o titular escolher Pages posteriormente: Settings → Pages → Source: GitHub Actions; executar manualmente o workflow Publicar jogo. Para deploy automático a cada push, definir a variável de repositório PUBLISH_GITHUB_PAGES=true depois de habilitar Pages. Não é necessário fornecer senha ou token à conversa. A base Vite já é `/civilizacao-de-bolso/`.
 
 ## Sites
 
