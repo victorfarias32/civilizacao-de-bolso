@@ -62,3 +62,5 @@ Instituições, facções, pesquisa, tecnologias, novas eras, expansão espacial
 ## Expansão 0.2.0
 
 [T31 — Conselhos, destinos e paisagens combinadas](T31.md): nove finais e caminhos extraordinários implementados como decisões e condições. Substitui a exclusão desses destinos no backlog original; pesquisa extensa, facções e novas eras permanecem futuras.
+
+[T32 — Escolhas coloridas e bairros em transformação](T32.md): ganhos reais caracterizados por cor, espaços públicos e arquitetura que crescem continuamente com as influências.

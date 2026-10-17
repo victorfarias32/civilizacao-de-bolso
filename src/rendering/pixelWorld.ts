@@ -1,3 +1,9 @@
+import {
+  drawTerritories,
+  drawDistrictLife,
+  drawPathAtmosphere,
+  drawDistrictMonuments,
+} from "./territories";
 import { drawProjects, drawDestination } from "./scenarios";
 import { type Game, type Person, living } from "../simulation/model";
 import { appearance, type Appearance } from "./appearance";
@@ -488,6 +494,7 @@ export function createScene(g: Game): PixelScene {
     if (hash(x, 0, g.seed) % 4 === 0) rect(c, x, edge - 8, 1, 7, "#9b9e7a");
     if (p.snow) rect(c, x, 0, 2, edge - 12, "#c8d8d1");
   }
+  drawTerritories(c, g);
   const width = riverWidth(a);
   for (let y = 0; y < HEIGHT; y++) {
     const x = Math.round(riverX(y)),
@@ -779,7 +786,9 @@ export function createScene(g: Game): PixelScene {
     rect(o, 242, 207, 3, 2, "#b5bbaa");
     rect(o, 252, 204, 2, 6, "#c2a06a");
   }
+  drawDistrictLife(o, g);
   drawProjects(o, g);
+  drawDistrictMonuments(o, g);
   return {
     ground,
     props,
@@ -1112,5 +1121,6 @@ export function drawFrame(
       }
   }
   drawDestination(c, g, t);
+  drawPathAtmosphere(c, g, t);
   return hits;
 }

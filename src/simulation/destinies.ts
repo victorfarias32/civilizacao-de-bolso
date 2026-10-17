@@ -17,32 +17,32 @@ export const PATH_INFO: Record<
 > = {
   nature: {
     name: "Natureza",
-    color: "#729e64",
+    color: "#47945b",
     scene: "Bosques luminosos, raízes e jardins entre as casas.",
   },
   knowledge: {
     name: "Conhecimento",
-    color: "#528ba7",
+    color: "#398cce",
     scene: "Observatório, engrenagens e instrumentos de luz azul.",
   },
   spirit: {
     name: "Consciência",
-    color: "#9b78ba",
+    color: "#a26bd0",
     scene: "Santuário, pedras suspensas e ecos violeta.",
   },
   order: {
     name: "Ordem",
-    color: "#b89b5e",
+    color: "#c79b35",
     scene: "Torres, muralhas e caminhos organizados.",
   },
   voyage: {
     name: "Exploração",
-    color: "#be8059",
+    color: "#dc873b",
     scene: "Porto, embarcações e caravanas de partida.",
   },
   memory: {
     name: "Memória",
-    color: "#8f9b9a",
+    color: "#3f9e9a",
     scene: "Arquivo, inscrições e monumentos às gerações.",
   },
 };

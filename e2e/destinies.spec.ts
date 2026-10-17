@@ -15,8 +15,17 @@ async function scene(page: Page, g: Game) {
 }
 async function pixels(page: Page) {
   return page.locator("canvas").evaluate((el) => {
-    const c = el as HTMLCanvasElement;
-    return Array.from(c.getContext("2d")!.getImageData(0, 0, 480, 320).data);
+    const c = el as HTMLCanvasElement,
+      ctx = c.getContext("2d")!,
+      data = ctx.getImageData(0, 0, 480, 320).data;
+    let hash = 2166136261;
+    for (let i = 0; i < data.length; i += 4)
+      hash = Math.imul(hash ^ data[i], 16777619);
+    return {
+      signature: String(hash),
+      nature: Array.from(ctx.getImageData(320, 195, 30, 30).data),
+      knowledge: Array.from(ctx.getImageData(110, 65, 55, 55).data),
+    };
   });
 }
 test.beforeEach(async ({ page }) => {
@@ -88,20 +97,9 @@ test("influências combinam pixels e cada destino tem um cenário distinto", asy
   g.destiny.scores.knowledge = 48;
   await scene(page, g);
   const mixed = await pixels(page);
-  // Each project's region survives the combination; changes are actual canvas pixels.
-  const region = (data: number[], x: number, y: number, w: number, h: number) =>
-    Array.from({ length: h }, (_, row) =>
-      data.slice(((y + row) * 480 + x) * 4, ((y + row) * 480 + x + w) * 4),
-    ).flat();
-  expect(region(nature, 205, 95, 40, 40)).not.toEqual(
-    region(base, 205, 95, 40, 40),
-  );
-  expect(region(mixed, 205, 95, 40, 40)).toEqual(
-    region(nature, 205, 95, 40, 40),
-  );
-  expect(region(mixed, 110, 50, 60, 65)).not.toEqual(
-    region(nature, 110, 50, 60, 65),
-  );
+  expect(nature.nature).not.toEqual(base.nature);
+  expect(mixed.nature).toEqual(nature.nature);
+  expect(mixed.knowledge).not.toEqual(nature.knowledge);
   for (const key of Object.keys(
     g.destiny.scores,
   ) as (keyof typeof g.destiny.scores)[])
@@ -136,11 +134,7 @@ test("influências combinam pixels e cada destino tem um cenário distinto", asy
       "data-ending",
       d.id,
     );
-    const data = await pixels(page);
-    let hash = 2166136261;
-    for (let i = 0; i < data.length; i += 4)
-      hash = Math.imul(hash ^ data[i], 16777619);
-    fingerprints.add(String(hash));
+    fingerprints.add((await pixels(page)).signature);
     await page.locator(".pixel-viewport").screenshot({
       path: `test-results/${info.project.name}-ending-${d.id}.png`,
     });

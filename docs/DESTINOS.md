@@ -55,3 +55,7 @@ Fixtures com influências combinadas para comparar o tratamento de cada final (n
 ![Partida espacial](imagens/destino-stellar.png)
 
 ![Passagem cósmica](imagens/destino-cosmic.png)
+
+## Refinamento visual 0.2.1
+
+A classificação por cor considera o ganho efetivo de cada alternativa. Os bairros agora modificam terreno e casas, crescem entre os marcos e acrescentam monumentos a partir de 72 pontos. Escolhas continuam usando as regras 0.2.0 e o formato 2, sem migração adicional. Consulte [a direção visual](DIRECAO-VISUAL.md) para as seis cores e seus cenários.

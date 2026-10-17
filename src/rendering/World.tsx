@@ -1,3 +1,12 @@
+import type { CSSProperties } from "react";
+import {
+  PATH_STYLE,
+  optionPaths,
+  changedPaths,
+  DISTRICTS,
+  visualStage,
+} from "./influences";
+import { decisionById } from "../simulation/destinies";
 import { mixedPaths, PATH_INFO, destination } from "../simulation/destinies";
 import { useEffect, useRef, useState } from "react";
 import type { Game } from "../simulation/model";
@@ -21,6 +30,17 @@ export function World({
     hits = useRef<Hit[]>([]);
   latest.current = game;
   selection.current = selected;
+  const lastChoice = game.destiny.resolved.at(-1),
+    lastDecision = decisionById(lastChoice?.id || null),
+    chosenOption = lastDecision?.options.find(
+      (o) => o.id === lastChoice?.option,
+    ),
+    choicePaths = chosenOption ? optionPaths(chosenOption) : [],
+    main = choicePaths[0],
+    showChoice =
+      !!lastChoice &&
+      game.cycle - lastChoice.cycle <= 1 &&
+      game.status !== "ended";
   const art = appearance(game),
     [zoomed, setZoomed] = useState(false);
   useEffect(() => {
@@ -67,6 +87,7 @@ export function World({
     <div
       className={`pixel-world season-${art.season} ${art.extinct ? "world-extinct" : ""} ${art.legacy ? "world-legacy" : ""} ${zoomed ? "is-zoomed" : ""}`}
       data-paths={mixedPaths(game).join(",")}
+      data-territories={changedPaths(game).join(",")}
       data-ending={game.ending || "none"}
       data-season={art.season}
       data-visual-events={art.cues.map((c) => c.type).join(",")}
@@ -81,6 +102,38 @@ export function World({
           {zoomed ? "− Visão completa" : "+ Ampliar mundo"}
         </button>
       </div>
+      {showChoice && chosenOption && (
+        <div
+          className="world-choice-result"
+          role="status"
+          style={
+            {
+              "--path-color": PATH_STYLE[main].color,
+              "--path-ink": PATH_STYLE[main].ink,
+            } as CSSProperties
+          }
+        >
+          <strong>
+            {PATH_STYLE[main].icon} {chosenOption.title}
+          </strong>
+          <span className="choice-gains">
+            {choicePaths.map((k) => (
+              <span
+                key={k}
+                className="influence-chip"
+                style={{
+                  background: PATH_STYLE[k].tint,
+                  color: PATH_STYLE[k].ink,
+                  borderColor: PATH_STYLE[k].color,
+                }}
+              >
+                {PATH_INFO[k].name} {game.destiny.scores[k]}/100
+              </span>
+            ))}
+            <span>O vale mudou · {visualStage(game.destiny.scores[main])}</span>
+          </span>
+        </div>
+      )}
       <div className="pixel-viewport">
         <canvas
           ref={canvasRef}
@@ -88,7 +141,14 @@ export function World({
           height={HEIGHT}
           className="world-canvas"
           role="img"
-          aria-label={`Mundo em pixel art: ${art.palette.name}. ${art.palette.mood}. ${art.cues.map((c) => c.detail).join(" ")} Consulte pessoas e recursos nos painéis.`}
+          aria-label={`Mundo em pixel art: ${art.palette.name}. ${art.palette.mood}. ${art.cues.map((c) => c.detail).join(" ")} Bairros: ${changedPaths(
+            game,
+          )
+            .map(
+              (k) =>
+                `${PATH_INFO[k].name}, ${visualStage(game.destiny.scores[k])}`,
+            )
+            .join("; ")}. Consulte pessoas e recursos nos painéis.`}
           onClick={(e) => {
             const b = e.currentTarget.getBoundingClientRect(),
               x = ((e.clientX - b.left) * WIDTH) / b.width,
@@ -100,6 +160,20 @@ export function World({
               onSelect(hit.id);
           }}
         />
+        {showChoice && !reduced && (
+          <span
+            key={`${lastChoice!.id}-${lastChoice!.cycle}`}
+            className="map-choice-burst"
+            aria-hidden="true"
+            style={
+              {
+                left: `${(DISTRICTS[main].x / 480) * (zoomed ? 200 : 100)}%`,
+                top: `${(DISTRICTS[main].y / 320) * (zoomed ? 200 : 100)}%`,
+                "--burst-color": PATH_STYLE[main].color,
+              } as CSSProperties
+            }
+          />
+        )}
         <div className="season-plaque">
           <span>
             {game.ending && !["legacy", "extinction"].includes(game.ending)
@@ -122,12 +196,26 @@ export function World({
         </div>
         {art.drought && <span className="world-weather">ESTIAGEM</span>}
       </div>
-      {mixedPaths(game).length > 0 && (
-        <div className="world-influences">
-          Paisagem:{" "}
-          {mixedPaths(game)
-            .map((k) => PATH_INFO[k].name)
-            .join(" + ")}
+      {changedPaths(game).length > 0 && (
+        <div
+          className="world-influences"
+          aria-label="Influências visíveis no mapa"
+        >
+          {changedPaths(game).map((k) => (
+            <span
+              key={k}
+              className="influence-chip"
+              title={`${PATH_INFO[k].name}: ${visualStage(game.destiny.scores[k])}`}
+              style={{
+                background: PATH_STYLE[k].tint,
+                color: PATH_STYLE[k].ink,
+                borderColor: PATH_STYLE[k].color,
+              }}
+            >
+              <span aria-hidden="true">{PATH_STYLE[k].icon}</span>{" "}
+              {PATH_INFO[k].name} {game.destiny.scores[k]}
+            </span>
+          ))}
         </div>
       )}
       {art.cues.length > 0 && (

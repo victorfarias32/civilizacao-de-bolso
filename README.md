@@ -2,7 +2,7 @@
 
 Uma pequena sociedade. As regras que você escolhe. Uma história que chega ao fim.
 
-**Versão jogável — 0.2.0.** Inclui simulação local, mundo em pixel art inspirado em jogos de 16 bits, políticas, ambiente, gerações, eventos, crônica, 19 conselhos com três alternativas, nove destinos, seis influências que combinam cenários, salvamento e PWA. Publicação e limitações estão em [PUBLICACAO.md](docs/PUBLICACAO.md).
+**Versão jogável — 0.2.1.** Inclui simulação local, mundo em pixel art inspirado em jogos de 16 bits, políticas, ambiente, gerações, eventos, crônica, 19 conselhos com três alternativas, nove destinos, seis influências que combinam cenários, salvamento e PWA. Publicação e limitações estão em [PUBLICACAO.md](docs/PUBLICACAO.md).
 
 ## Jogar
 
@@ -48,9 +48,11 @@ Se houver Chromium do sistema: `CHROMIUM_PATH=/usr/bin/chromium npm run test:e2e
 
 As quatro estações mudam vegetação, terreno, rio, casas, clima e roupas. Fome, estiagem, doença, nascimento, morte, construção, reparo, mutirão, tradições e destinos deixam sinais no cenário. Use **Ampliar mundo** para explorar os detalhes pelo celular. [Direção visual e capturas](docs/DIRECAO-VISUAL.md).
 
+As escolhas do conselho têm cores por influência principal, ícones, ganhos secundários e prévia de transformação. Ganhos empatados mostram duas cores; o limite de 100 é respeitado na prévia. Os bairros se expandem a cada ponto, com terreno, casas, oficinas, mercados, cristais e memoriais próprios. Novos monumentos aparecem a partir de 72 pontos. A escolha destaca o bairro que mudou e deixa um registro visível no mundo.
+
 ## Validação
 
-40 testes de regras/apresentação; testes Playwright em desktop e perfil Android emulado, incluindo persistência das escolhas e comparação dos pixels dos cenários. [Regras dos novos destinos](docs/DESTINOS.md). A versão inicial também teve análise Axe dos quatro painéis e lote de 80 partidas. [Evidências e limitações](docs/validacao/RELEASE-v0.1.md).
+42 testes de regras/apresentação; testes Playwright em desktop e perfil Android emulado, incluindo persistência das escolhas e comparação dos pixels dos cenários. [Regras dos novos destinos](docs/DESTINOS.md). A versão inicial também teve análise Axe dos quatro painéis e lote de 80 partidas. [Evidências e limitações](docs/validacao/RELEASE-v0.1.md).
 
 **Android físico ainda precisa de avaliação:** instalação real, leitor de tela, desempenho e retomada após encerrar o Chrome. Emulação não substitui esse aceite. Pesquisa extensa, facções e multiplayer continuam fora desta versão. Os destinos extraordinários atuais são caminhos de escolhas e condições, sem árvores extensas de tecnologia.
 
