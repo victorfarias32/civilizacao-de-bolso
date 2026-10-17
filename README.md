@@ -2,7 +2,7 @@
 
 Uma pequena sociedade. As regras que você escolhe. Uma história que chega ao fim.
 
-**Primeira versão jogável implementada — 0.1.0.** Inclui simulação local, diorama 2D, políticas, ambiente, gerações, eventos, crônica, dois destinos, salvamento e PWA. Publicação e limitações estão em [PUBLICACAO.md](docs/PUBLICACAO.md).
+**Primeira versão jogável implementada — 0.1.0.** Inclui simulação local, mundo em pixel art inspirado em jogos de 16 bits, políticas, ambiente, gerações, eventos, crônica, dois destinos, salvamento e PWA. Publicação e limitações estão em [PUBLICACAO.md](docs/PUBLICACAO.md).
 
 ## Jogar
 
@@ -44,9 +44,13 @@ npm run test:e2e
 
 Se houver Chromium do sistema: `CHROMIUM_PATH=/usr/bin/chromium npm run test:e2e`.
 
+## Novo mundo em pixel art
+
+As quatro estações mudam vegetação, terreno, rio, casas, clima e roupas. Fome, estiagem, doença, nascimento, morte, construção, reparo, mutirão, tradições e destinos deixam sinais no cenário. Use **Ampliar mundo** para explorar os detalhes pelo celular. [Direção visual e capturas](docs/DIRECAO-VISUAL.md).
+
 ## Validação
 
-24 testes de simulação/intercâmbio, 20 testes Playwright em desktop e perfil Android emulado, análise Axe dos quatro painéis e lote de 80 partidas. [Evidências e limitações](docs/validacao/RELEASE-v0.1.md).
+27 testes de regras/apresentação, 26 testes Playwright em desktop e perfil Android emulado, análise Axe dos quatro painéis e lote de 80 partidas. [Evidências e limitações](docs/validacao/RELEASE-v0.1.md).
 
 **Android físico ainda precisa de avaliação:** instalação real, leitor de tela, desempenho e retomada após encerrar o Chrome. Emulação não substitui esse aceite. Destinos cósmicos, pesquisa extensa, facções e multiplayer continuam fora desta versão.
 

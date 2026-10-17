@@ -71,9 +71,9 @@ Ao ocultar a página, pausar, cancelar acúmulo de tempo e voltar pausado. Sem a
 
 ## Arte e recursos
 
-Mapa inicial proposto de 12 × 12 células, limite técnico inicial de 60 habitantes vivos. Bosque, água decorativa, clareira e áreas fixas de construção. Sem pathfinding: trajetos visuais interpolam posições de atividades; a produção vem da simulação.
+O cenário visual usa resolução lógica de 480 × 320 pixels e escala sem suavização. Limite técnico de 60 habitantes vivos. Bosque, água decorativa, clareira e áreas fixas de construção. Sem pathfinding: trajetos visuais interpolam posições de atividades; a produção vem da simulação.
 
-Usar desenhos vetoriais/procedurais próprios no Canvas e CSS no primeiro marco. Sem compra de assets nem geração de pacotes grandes. Não desenhar construções funcionais antes de existir construção; acampamento decorativo deve ser distinguido.
+Usar pixel art procedural própria no Canvas, com sprites e camadas cacheados por estado. Cada tipo de acontecimento deve ter um efeito visual verificável; ver DIRECAO-VISUAL.md. Sem compra de assets nem geração de pacotes grandes. Não desenhar construções funcionais antes de existir construção; acampamento decorativo deve ser distinguido.
 
 Paleta quente com vegetação verde, água azul suave e crises sinalizadas por ícone/texto. Redução de movimento interrompe efeitos decorativos. Finais mudam composição, sem prometer efeitos cósmicos na v0.1.
 

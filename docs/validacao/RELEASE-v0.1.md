@@ -37,3 +37,7 @@ Código e arte original: MIT. React, React DOM, Zod e Workbox com avisos em publ
 ## Publicação confirmada
 
 O Sites confirmou sucesso da publicação em 17/10/2026 às 10:29 UTC: [abrir jogo](https://civilizacao-de-bolso-victor.espa-o-de-tr-2071.chatgpt.site). Acesso tornado público por solicitação do titular em 17/10/2026 às 10:35 UTC, com HTTP 200 anônimo e sem redirecionamento. Código público no GitHub. Build e testes da implementação estão concluídos; aceite em Android físico continua explícito.
+
+## Revisão de direção visual
+
+Mundo refeito em pixel art inspirado em 16 bits, com estações e consequências desenhadas no cenário. [Detalhes e capturas](../DIRECAO-VISUAL.md). Regras de jogo e formato dos salvamentos preservados. Verificações atuais: 27 testes Vitest e 26 casos Playwright (24 na suíte completa e 2 de zoom em execução separada), com 30 FPS no cenário emulado de 60 habitantes.

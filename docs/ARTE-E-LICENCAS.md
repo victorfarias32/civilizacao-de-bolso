@@ -1,7 +1,7 @@
 # Arte e licenças
 
 - Código e documentação deste projeto: MIT, conforme LICENSE.
-- Diorama, terreno, rio, árvores, ponte, abrigos e habitantes: desenhos procedurais originais em `src/rendering/World.tsx`, sob a licença do projeto.
+- Diorama, terreno, rio, árvores, ponte, abrigos e habitantes: desenhos procedurais originais em `src/rendering/pixelWorld.ts`, com paletas e sinais em `src/rendering/appearance.ts`, sob a licença do projeto.
 - Ícone: desenho original em `public/icon.svg`; versões PNG desenhadas com a mesma composição, sob a licença do projeto.
 - Interface: CSS próprio. Fontes: famílias do sistema, sem download ou redistribuição de arquivo de fonte.
 - Não há fotografias, áudio ou assets comprados/de terceiros.
@@ -9,3 +9,5 @@
 - Vite, TypeScript, Vitest, Playwright, tsx e ferramentas associadas são dependências de desenvolvimento. Licenças detalhadas permanecem nos respectivos pacotes instalados.
 
 Novos recursos devem registrar autoria, origem e licença antes de entrar no repositório. Não presumir que uma imagem encontrada na internet pode ser redistribuída.
+
+A revisão visual de outubro de 2026 usa pixel art procedural de autoria do projeto, sem download de sprites ou fontes. Capturas em docs/imagens são evidências dos cenários de teste, não pinturas que substituem o jogo.

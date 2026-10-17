@@ -1242,3 +1242,181 @@ strong {
 .ending > .eyebrow {
   color: #56664c;
 }
+
+/* A cartridge-like window for the living, low-resolution world. */
+.pixel-world {
+  background: #203c36;
+  border-top: 3px solid #203c36;
+  border-bottom: 3px solid #203c36;
+}
+.pixel-viewport {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: #304d3d;
+}
+.pixel-world .world-canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3/2;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  cursor: crosshair;
+}
+.season-plaque {
+  position: absolute;
+  top: 13px;
+  left: 13px;
+  background: #172f31;
+  color: #f0e5b5;
+  padding: 9px 12px;
+  border: 1px solid #b5aa73;
+  box-shadow: 3px 3px 0 #142426a8;
+  pointer-events: none;
+  font-family: "Courier New", monospace;
+  max-width: 78%;
+}
+.season-plaque > span {
+  display: block;
+  font-size: 12px;
+  letter-spacing: 2px;
+  font-weight: bold;
+}
+.season-plaque small {
+  display: block;
+  font-size: 8px;
+  letter-spacing: 1px;
+  margin-top: 4px;
+  color: #e2d7ab;
+}
+.world-weather {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  background: #70452b;
+  color: #fff0cb;
+  font:
+    11px "Courier New",
+    monospace;
+  padding: 7px 10px;
+  border: 1px solid #e2b676;
+}
+.world-signs {
+  display: flex;
+  gap: 6px;
+  padding: 9px 12px;
+  flex-wrap: wrap;
+  background: #203c36;
+  color: #f0e6bb;
+  min-height: 35px;
+}
+.world-signs > span {
+  font-size: 10px;
+  border-left: 2px solid #c7ac63;
+  padding: 2px 9px;
+  line-height: 1.5;
+}
+.season-3 .season-plaque {
+  background: #2a414e;
+  border-color: #d2dfd5;
+}
+.season-2 .season-plaque {
+  background: #4d352b;
+  border-color: #d2af67;
+}
+.world-legacy .season-plaque {
+  background: #202f48;
+  border-color: #dfbf73;
+}
+.world-extinct .season-plaque {
+  background: #2d3935;
+  border-color: #a4ac95;
+}
+.world-card {
+  border-color: #69785b;
+  box-shadow: 0 5px 0 #d5d8c5;
+}
+.world-top {
+  background: #e7e7d6;
+}
+.world-caption {
+  background: #e7e7d6;
+}
+.time-controls {
+  background: #eeeada;
+}
+@media (max-width: 760px) {
+  .season-plaque {
+    top: 9px;
+    left: 9px;
+    padding: 7px 9px;
+  }
+  .season-plaque > span {
+    font-size: 10px;
+    letter-spacing: 1.4px;
+  }
+  .season-plaque small {
+    font-size: 7px;
+    letter-spacing: 0.6px;
+  }
+  .world-signs > span {
+    font-size: 11px;
+  }
+  .pixel-world .world-canvas {
+    height: auto;
+    aspect-ratio: 3/2;
+  }
+}
+.world-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 0 10px;
+  background: #203c36;
+  color: #eee2b4;
+  min-height: 44px;
+}
+.world-toolbar > span {
+  font:
+    9px "Courier New",
+    monospace;
+  letter-spacing: 1.3px;
+}
+.world-toolbar button {
+  min-height: 44px;
+  padding: 8px 10px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: #f4eac9;
+  font:
+    11px "Courier New",
+    monospace;
+}
+.world-toolbar button:hover {
+  background: #355347;
+}
+.pixel-world .pixel-viewport {
+  aspect-ratio: 3/2;
+  overflow: hidden;
+}
+.pixel-world .world-canvas {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: auto;
+}
+.pixel-world.is-zoomed .pixel-viewport {
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+.pixel-world.is-zoomed .world-canvas {
+  width: 200%;
+  height: 200%;
+  max-width: none;
+  touch-action: pan-x pan-y;
+}

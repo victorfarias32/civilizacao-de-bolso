@@ -112,9 +112,9 @@ Exportação JSON preservará partida e crônica. Importação servirá inicialm
 
 ## 10. Arte e experiência móvel
 
-Diorama ilustrado em perspectiva isométrica simplificada: acolhedor, misterioso, artesanal e legível em telas pequenas. Terreno em níveis, água e vegetação com movimentos discretos, pessoas distinguíveis e construções com sinais de ocupação e desgaste.
+Mundo em pixel art inspirado em jogos de 16 bits, com perspectiva de RPG em vista superior inclinada, texturas, sprites próprios, árvores, rio, ponte, abrigos e habitantes distinguíveis. O mapa inteiro muda com as estações; acontecimentos deixam vestígios além de mensagens. Ver [direção visual](DIRECAO-VISUAL.md).
 
-Paletas sazonais e, futuramente, por era. Extinção deixa ruínas e silêncio; destinos espaciais ou transcendentes podem transformar a composição visual. Evitar hiper-realismo.
+Primavera com florações e chuva; verão com vegetação densa e frutos; outono com copas douradas e folhas; inverno com neve, gelo, galhos nus e roupas quentes. Extinção deixa ruínas e silêncio; destinos espaciais ou transcendentes podem transformar a composição visual. Evitar hiper-realismo.
 
 O diorama ocupa a maior parte da tela, com recursos e alertas compactos e painéis inferiores para políticas, pessoas e crônica. Toque substitui interações de mouse; nenhuma ação depende de hover. Disponibilizar redução de movimento, texto legível e sinais que não dependam só de cor.
 
