@@ -1,5 +1,11 @@
 # Publicação e operação
 
+## Atualização 0.2.1 — cores e bairros
+
+Publicada em 17/10/2026 às 11:51 UTC no mesmo endereço público. Sites versão 4, deploy `appgdep_6ad3614027848191b9486fc005cf1eb1` confirmado `succeeded`. Versão salva: `appgprj_6ad34caa6d888191a2e31215878b1c8d~appgver_f0eca4cc494c81918320118b4206c51c`. Origem Sites: `44c9eb0c90a5e6a3f5897f06b6b34b9fcfbf94bc`. Implementação GitHub: `7a30f85`.
+
+Escolhas classificadas por cor do ganho efetivo, bairros com expansão contínua, arquitetura e monumentos. [Direção visual](DIRECAO-VISUAL.md) e [validação](validacao/RELEASE-v0.2.1.md). Regras e formato de salvamento preservados; usar **Guardar e atualizar** no aviso do PWA.
+
 ## Atualização 0.2.0 — escolhas e destinos
 
 Publicada em 17/10/2026 às 11:23 UTC no mesmo endereço público. Versão Sites 3, deploy `appgdep_6ad35ab3a82c8191b3a8e970188a596a` confirmado `succeeded`. Versão salva: `appgprj_6ad34caa6d888191a2e31215878b1c8d~appgver_0bc1335a61088191b9b4d22465af5fb3`. Origem Sites: `3decabf367e6c28311b1c5eb536cba7115253dd2`. Implementação GitHub: `f0fc1ee`.

@@ -52,7 +52,7 @@ As escolhas do conselho têm cores por influência principal, ícones, ganhos se
 
 ## Validação
 
-42 testes de regras/apresentação; testes Playwright em desktop e perfil Android emulado, incluindo persistência das escolhas e comparação dos pixels dos cenários. [Regras dos novos destinos](docs/DESTINOS.md). A versão inicial também teve análise Axe dos quatro painéis e lote de 80 partidas. [Evidências e limitações](docs/validacao/RELEASE-v0.1.md).
+42 testes de regras/apresentação; 34 testes Playwright em desktop e perfil Android emulado, incluindo persistência das escolhas e comparação dos pixels dos cenários. [Regras dos novos destinos](docs/DESTINOS.md). A versão inicial também teve análise Axe dos quatro painéis e lote de 80 partidas. [Evidências e limitações](docs/validacao/RELEASE-v0.1.md).
 
 **Android físico ainda precisa de avaliação:** instalação real, leitor de tela, desempenho e retomada após encerrar o Chrome. Emulação não substitui esse aceite. Pesquisa extensa, facções e multiplayer continuam fora desta versão. Os destinos extraordinários atuais são caminhos de escolhas e condições, sem árvores extensas de tecnologia.
 
