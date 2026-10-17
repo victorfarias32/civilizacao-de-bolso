@@ -1,5 +1,11 @@
 # Publicação e operação
 
+## Atualização 0.3.0 — lugares e descoberta
+
+Publicada em 17/10/2026 às 14:50 UTC no mesmo endereço público. Sites versão 5, deploy `appgdep_6ad38b26497c81918ff4f8bf9b5fad9b` confirmado `succeeded`. Versão salva: `appgprj_6ad34caa6d888191a2e31215878b1c8d~appgver_da07859c8ae08191bc4e6fb520f6c203`. Origem Sites: `3d17681901da30d8b72ceb9c1dbd3728e17e6959`. Implementação GitHub: `ae9a5b2`.
+
+Observatório, porto e memorial interativos; bosque em etapas com escolha de local; descoberta com dois resultados persistentes. [Interações](INTERACOES.md) e [validação](validacao/RELEASE-v0.3.md). Partidas antigas migram para formato 3/regras 0.3.0; partidas encerradas permanecem encerradas. No PWA, usar **Guardar e atualizar** quando o aviso aparecer.
+
 ## Atualização 0.2.1 — cores e bairros
 
 Publicada em 17/10/2026 às 11:51 UTC no mesmo endereço público. Sites versão 4, deploy `appgdep_6ad3614027848191b9486fc005cf1eb1` confirmado `succeeded`. Versão salva: `appgprj_6ad34caa6d888191a2e31215878b1c8d~appgver_f0eca4cc494c81918320118b4206c51c`. Origem Sites: `44c9eb0c90a5e6a3f5897f06b6b34b9fcfbf94bc`. Implementação GitHub: `7a30f85`.

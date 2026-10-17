@@ -1,6 +1,6 @@
 # Validação — 0.3.0
 
-Marco: três lugares interativos, obra em etapas e descoberta investigável. Implementação concluída, com verificações locais e publicação registradas ao encerrar o marco.
+Marco: três lugares interativos, obra em etapas e descoberta investigável. Implementação concluída e publicada em 17/10/2026, Sites versão 5.
 
 ## Verificado
 
