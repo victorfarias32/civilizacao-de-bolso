@@ -26,7 +26,7 @@ Os parâmetros originais causavam extinção inevitável antes do fim nas estrat
 
 - Verificar toque, instalação na tela inicial, leitor de tela e desempenho em um Android real. Não houve acesso a aparelho físico.
 - Verificar vida útil do cache e abertura offline após encerramento completo do Chrome no Android.
-- Nova hospedagem depende de controles da plataforma; GitHub Pages recusou ativação por falta de permissão da integração (HTTP 403). Workflow de deploy está pronto; Sites publicou a versão privada com sucesso. Endereço e identificação estão em [PUBLICACAO.md](../PUBLICACAO.md).
+- Nova hospedagem depende de controles da plataforma; GitHub Pages recusou ativação por falta de permissão da integração (HTTP 403). Workflow de deploy está pronto; Sites publicou a versão com sucesso; o titular depois autorizou acesso público. Endereço e identificação estão em [PUBLICACAO.md](../PUBLICACAO.md).
 - Destinos cósmicos, pesquisa avançada, facções, multiplayer e progresso offline não fazem parte desta versão.
 - Persistência é local ao domínio e navegador. Exportar JSON para transferir entre hospedagens.
 
@@ -36,4 +36,4 @@ Código e arte original: MIT. React, React DOM, Zod e Workbox com avisos em publ
 
 ## Publicação confirmada
 
-O Sites confirmou sucesso da publicação em 17/10/2026 às 10:29 UTC: [abrir jogo](https://civilizacao-de-bolso-victor.espa-o-de-tr-2071.chatgpt.site). Acesso privado ao titular; código público no GitHub. Build e testes da implementação estão concluídos; aceite em Android físico continua explícito.
+O Sites confirmou sucesso da publicação em 17/10/2026 às 10:29 UTC: [abrir jogo](https://civilizacao-de-bolso-victor.espa-o-de-tr-2071.chatgpt.site). Acesso tornado público por solicitação do titular em 17/10/2026 às 10:35 UTC, com HTTP 200 anônimo e sem redirecionamento. Código público no GitHub. Build e testes da implementação estão concluídos; aceite em Android físico continua explícito.
