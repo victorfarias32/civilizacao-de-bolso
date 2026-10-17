@@ -6,7 +6,7 @@ Uma pequena sociedade. As regras que você escolhe. Uma história que chega ao f
 
 ## Jogar
 
-[**Abrir o jogo**](https://civilizacao-de-bolso-victor.espa-o-de-tr-2071.chatgpt.site) — versão hospedada no Sites, privada para a conta do titular.
+[**Abrir o jogo**](https://civilizacao-de-bolso-victor.espa-o-de-tr-2071.chatgpt.site) — versão pública no Sites; abre sem login no ChatGPT.
 
 Funde uma comunidade de 12 pessoas, escolha políticas e avance as estações. A simulação começa pausada. Use **Retomar**, **+ Estação** e velocidades 1×/2×/4×. Observe as fichas dos habitantes, o ambiente e a crônica; trabalho e extração intensivos trazem benefícios imediatos e custos acumulados.
 
@@ -61,7 +61,7 @@ Se houver Chromium do sistema: `CHROMIUM_PATH=/usr/bin/chromium npm run test:e2e
 
 ## Publicação
 
-A build é estática. GitHub Pages tem workflow preparado para o subdiretório `/civilizacao-de-bolso/`, mas a integração recusou sua ativação administrativa (HTTP 403). A versão já está publicada no Sites como alternativa, com acesso privado ao titular. Para hospedar na raiz em outro serviço, use `npm run build -- --base=/` e publique `dist/` por HTTPS. Não é necessário servidor próprio.
+A build é estática. GitHub Pages tem workflow preparado para o subdiretório `/civilizacao-de-bolso/`, mas a integração recusou sua ativação administrativa (HTTP 403). A versão já está publicada no Sites como alternativa, com acesso público, sem login. Para hospedar na raiz em outro serviço, use `npm run build -- --base=/` e publique `dist/` por HTTPS. Não é necessário servidor próprio.
 
 ## Licença
 
