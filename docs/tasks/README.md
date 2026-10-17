@@ -64,3 +64,5 @@ Instituições, facções, pesquisa, tecnologias, novas eras, expansão espacial
 [T31 — Conselhos, destinos e paisagens combinadas](T31.md): nove finais e caminhos extraordinários implementados como decisões e condições. Substitui a exclusão desses destinos no backlog original; pesquisa extensa, facções e novas eras permanecem futuras.
 
 [T32 — Escolhas coloridas e bairros em transformação](T32.md): ganhos reais caracterizados por cor, espaços públicos e arquitetura que crescem continuamente com as influências.
+
+[T33 — Lugares interativos, obra em etapas e descoberta](T33.md): aplicação do marco derivado dos benchmarks visuais, com efeitos reais, estados persistidos e migração de partidas.

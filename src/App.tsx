@@ -66,6 +66,7 @@ const TRADITION = {
   shelter: "Memória do abrigo",
 };
 const EVENT_ICON: Record<HistoryEvent["type"], string> = {
+  project: "❀",
   decision: "⚑",
   discovery: "✷",
   foundation: "✧",
@@ -174,7 +175,7 @@ function App() {
     };
   }, [game]);
   const executeStep = useCallback(
-    (extra?: { key: "decision" | "destination"; value: string }) => {
+    (extra?: { key: "decision" | "destination" | "world"; value: string }) => {
       const g = gameRef.current;
       if (!g || g.status === "ended") return;
       const entries = Object.entries(pendingRef.current) as [
@@ -199,6 +200,12 @@ function App() {
       const next = advanceSeason(g, commands).state;
       if (next.destiny.pending && next.destiny.pending !== g.destiny.pending)
         setRunning(false);
+      if (!g.world.discovery.appearedAt && next.world.discovery.appearedAt) {
+        setRunning(false);
+        setMessage(
+          "Uma luz surgiu no bosque. Toque no sinal do mapa para investigar.",
+        );
+      }
       pendingRef.current = {};
       setPending({});
       gameRef.current = next;
@@ -470,6 +477,10 @@ function App() {
               )}
               <World
                 game={current}
+                interactive={!!game}
+                onInspect={() => setRunning(false)}
+                onAdvance={step}
+                onAction={(value) => executeStep({ key: "world", value })}
                 selected={selected}
                 reduced={reduced}
                 onSelect={(id) => {

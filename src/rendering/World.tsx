@@ -1,3 +1,5 @@
+import { PLACES, PlaceSheet, type Place } from "../WorldPlaces";
+import { GROVE_SITES, type WorldAction } from "../simulation/world";
 import type { CSSProperties } from "react";
 import {
   PATH_STYLE,
@@ -8,7 +10,7 @@ import {
 } from "./influences";
 import { decisionById } from "../simulation/destinies";
 import { mixedPaths, PATH_INFO, destination } from "../simulation/destinies";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import type { Game } from "../simulation/model";
 import { appearance } from "./appearance";
 import { createScene, drawFrame, WIDTH, HEIGHT, type Hit } from "./pixelWorld";
@@ -18,12 +20,33 @@ export function World({
   selected,
   onSelect,
   reduced,
+  interactive = false,
+  onAction,
+  onInspect,
+  onAdvance,
 }: {
   game: Game;
   selected: string | null;
   onSelect: (id: string) => void;
   reduced: boolean;
+  interactive?: boolean;
+  onAction?: (action: WorldAction) => void;
+  onInspect?: () => void;
+  onAdvance?: () => void;
 }) {
+  const [place, setPlace] = useState<Place | null>(null),
+    [site, setSite] = useState<"river" | "village" | null>(null),
+    origin = useRef<HTMLButtonElement | null>(null);
+  const openPlace = (p: Place, button?: HTMLButtonElement) => {
+    if (button) origin.current = button;
+    setPlace(p);
+    onInspect?.();
+  };
+  const closePlace = useCallback(() => {
+    setPlace(null);
+    setSite(null);
+    origin.current?.focus();
+  }, []);
   const canvasRef = useRef<HTMLCanvasElement>(null),
     latest = useRef(game),
     selection = useRef(selected),
@@ -89,6 +112,11 @@ export function World({
       data-paths={mixedPaths(game).join(",")}
       data-territories={changedPaths(game).join(",")}
       data-ending={game.ending || "none"}
+      data-project-stage={game.world.grove?.progress ?? "none"}
+      data-discovery={
+        game.world.discovery.choice ||
+        (game.world.discovery.appearedAt !== null ? "available" : "hidden")
+      }
       data-season={art.season}
       data-visual-events={art.cues.map((c) => c.type).join(",")}
     >
@@ -160,6 +188,86 @@ export function World({
               onSelect(hit.id);
           }}
         />
+        {(
+          Object.entries(PLACES) as [
+            keyof typeof PLACES,
+            (typeof PLACES)[keyof typeof PLACES],
+          ][]
+        ).map(([id, p]) => (
+          <button
+            key={id}
+            type="button"
+            className={`place-pin ${place === id ? "active" : ""}`}
+            style={{
+              left: `${(p.x / 480) * (zoomed ? 200 : 100)}%`,
+              top: `${(p.y / 320) * (zoomed ? 200 : 100)}%`,
+            }}
+            aria-label={`Examinar ${p.name.toLocaleLowerCase("pt-BR")}`}
+            aria-expanded={place === id}
+            onClick={(e) => openPlace(id, e.currentTarget)}
+          >
+            <span aria-hidden="true">{p.icon}</span>
+            <small>{p.name}</small>
+          </button>
+        ))}
+        {place === "grove" &&
+          !game.world.grove &&
+          (["river", "village"] as const).map((id) => (
+            <button
+              type="button"
+              key={id}
+              className={`grove-candidate ${site === id ? "selected" : ""}`}
+              style={{
+                left: `${(GROVE_SITES[id].x / 480) * (zoomed ? 200 : 100)}%`,
+                top: `${(GROVE_SITES[id].y / 320) * (zoomed ? 200 : 100)}%`,
+              }}
+              onClick={() => setSite(id)}
+              aria-label={`Local para o bosque: ${GROVE_SITES[id].name}`}
+              aria-pressed={site === id}
+            >
+              <span aria-hidden="true">❀</span>
+              <small>{GROVE_SITES[id].name}</small>
+            </button>
+          ))}
+        {game.world.grove && (
+          <button
+            type="button"
+            className="place-pin grove-pin"
+            style={{
+              left: `${((GROVE_SITES[game.world.grove.site].x - 32) / 480) * (zoomed ? 200 : 100)}%`,
+              top: `${(Math.min(285, GROVE_SITES[game.world.grove.site].y + 24) / 320) * (zoomed ? 200 : 100)}%`,
+            }}
+            aria-label="Examinar bosque"
+            aria-expanded={place === "grove"}
+            onClick={(e) => openPlace("grove", e.currentTarget)}
+          >
+            <span aria-hidden="true">❀</span>
+            <small>Bosque {game.world.grove.progress}/3</small>
+          </button>
+        )}
+        {game.world.discovery.appearedAt !== null && game.world.grove && (
+          <button
+            type="button"
+            className={`place-pin discovery-pin ${game.world.discovery.resolvedAt === null ? "unresolved" : ""}`}
+            style={{
+              left: `${((GROVE_SITES[game.world.grove.site].x + 38) / 480) * (zoomed ? 200 : 100)}%`,
+              top: `${((GROVE_SITES[game.world.grove.site].y - 32) / 320) * (zoomed ? 200 : 100)}%`,
+            }}
+            aria-label={
+              game.world.discovery.resolvedAt === null
+                ? "Investigar luz do bosque"
+                : "Revisitar luz do bosque"
+            }
+            onClick={(e) => openPlace("discovery", e.currentTarget)}
+          >
+            <span aria-hidden="true">✦</span>
+            <small>
+              {game.world.discovery.resolvedAt === null
+                ? "Investigar"
+                : "Descoberta"}
+            </small>
+          </button>
+        )}
         {showChoice && !reduced && (
           <span
             key={`${lastChoice!.id}-${lastChoice!.cycle}`}
@@ -196,6 +304,22 @@ export function World({
         </div>
         {art.drought && <span className="world-weather">ESTIAGEM</span>}
       </div>
+      <p className="world-touch-hint">
+        ⚙ Observatório · ⚓ Porto · ▤ Memorial — toque para visitar.
+      </p>
+      {place && (
+        <PlaceSheet
+          place={place}
+          game={game}
+          enabled={interactive}
+          onClose={closePlace}
+          onAction={(a) => onAction?.(a)}
+          onPlace={(p) => openPlace(p)}
+          onSite={setSite}
+          site={site}
+          onAdvance={onAdvance}
+        />
+      )}
       {changedPaths(game).length > 0 && (
         <div
           className="world-influences"

@@ -4,13 +4,11 @@ import { createGame } from "../src/simulation/engine";
 import { PATHS, type Game } from "../src/simulation/model";
 import { PATH_STYLE } from "../src/rendering/influences";
 async function scene(page: Page, g: Game) {
-  await page
-    .locator("input[type=file]")
-    .setInputFiles({
-      name: "paisagem.json",
-      mimeType: "application/json",
-      buffer: Buffer.from(JSON.stringify(g)),
-    });
+  await page.locator("input[type=file]").setInputFiles({
+    name: "paisagem.json",
+    mimeType: "application/json",
+    buffer: Buffer.from(JSON.stringify(g)),
+  });
   await expect(
     page.getByRole("heading", { name: g.name, exact: true }),
   ).toBeVisible();
@@ -83,11 +81,9 @@ test("as seis cores identificam ganhos reais, empates e limite de influência", 
       })),
     ).toEqual([]);
     if (id === "roots")
-      await page
-        .locator(".council")
-        .screenshot({
-          path: `test-results/${info.project.name}-colored-choices.png`,
-        });
+      await page.locator(".council").screenshot({
+        path: `test-results/${info.project.name}-colored-choices.png`,
+      });
   }
   expect(seen.size).toBe(6);
   const g = createGame({ name: "Empate de caminhos" });
@@ -134,23 +130,21 @@ test("cada caminho transforma uma área ampla e continua mudando entre marcos", 
     early.name = `Primeiro bairro ${path}`;
     early.destiny.scores[path] = 12;
     await scene(page, early);
-    expect(await difference(page), path).toBeGreaterThan(700);
+    expect.soft(await difference(page), path).toBeGreaterThan(700);
     await remember(page);
     const middle = structuredClone(early);
     middle.name = `Mais uma escolha ${path}`;
     middle.destiny.scores[path] = 18;
     await scene(page, middle);
-    expect(await difference(page), path).toBeGreaterThan(300);
+    expect.soft(await difference(page), path).toBeGreaterThan(300);
     const late = structuredClone(early);
     late.name = `Paisagem transformada ${path}`;
     late.destiny.scores[path] = 72;
     await scene(page, late);
-    expect(await difference(page), path).toBeGreaterThan(1500);
-    await page
-      .locator(".pixel-viewport")
-      .screenshot({
-        path: `test-results/${info.project.name}-district-${path}.png`,
-      });
+    expect.soft(await difference(page), path).toBeGreaterThan(1500);
+    await page.locator(".pixel-viewport").screenshot({
+      path: `test-results/${info.project.name}-district-${path}.png`,
+    });
   }
   const mixed = createGame({ name: "Mundo de caminhos misturados" });
   mixed.cycle = 40;
@@ -159,9 +153,7 @@ test("cada caminho transforma uma área ampla e continua mudando entre marcos", 
   await expect(page.locator(".world-influences .influence-chip")).toHaveCount(
     6,
   );
-  await page
-    .locator(".pixel-viewport")
-    .screenshot({
-      path: `test-results/${info.project.name}-district-mixed.png`,
-    });
+  await page.locator(".pixel-viewport").screenshot({
+    path: `test-results/${info.project.name}-district-mixed.png`,
+  });
 });

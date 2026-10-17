@@ -1,6 +1,7 @@
+import { WORLD_ACTIONS } from "../simulation/world";
 import { z } from "zod";
 import { decisionById, destinationChecks } from "../simulation/destinies";
-import { emptyDestiny } from "../simulation/model";
+import { emptyDestiny, emptyWorld } from "../simulation/model";
 import {
   gameSchema,
   type Game,
@@ -12,32 +13,43 @@ export const MAX_BYTES = 5 * 1024 * 1024;
 export function validateSave(
   value: unknown,
 ): { ok: true; game: Game } | { ok: false; error: string } {
-  const legacySchema = gameSchema
+  const oldBase = gameSchema.omit({ world: true });
+  const previous = oldBase
+    .extend({ schemaVersion: z.literal(2), rulesVersion: z.literal("0.2.0") })
+    .safeParse(value);
+  const legacy = oldBase
     .omit({ destiny: true })
     .extend({
       schemaVersion: z.literal(1),
       rulesVersion: z.literal("0.1.0"),
       ending: z.enum(["legacy", "extinction"]).nullable(),
-    });
-  const legacy = legacySchema.safeParse(value);
-  const parsed = gameSchema.safeParse(
-    legacy.success
+    })
+    .safeParse(value);
+  const migrated = previous.success
+    ? {
+        ...previous.data,
+        schemaVersion: 3,
+        rulesVersion: "0.3.0",
+        world: emptyWorld(),
+      }
+    : legacy.success
       ? {
           ...legacy.data,
-          schemaVersion: 2,
-          rulesVersion: "0.2.0",
+          schemaVersion: 3,
+          rulesVersion: "0.3.0",
+          world: emptyWorld(),
           destiny: {
             ...emptyDestiny(),
             nextAt: Math.min(168, Math.max(4, legacy.data.cycle + 1)),
           },
         }
-      : value,
-  );
+      : value;
+  const parsed = gameSchema.safeParse(migrated);
   if (!parsed.success)
     return {
       ok: false,
       error:
-        "Arquivo incompatível ou incompleto. Esta versão aceita partidas 0.1.0 e 0.2.0.",
+        "Arquivo incompatível ou incompleto. Esta versão aceita partidas 0.1.0, 0.2.0 e 0.3.0.",
     };
   const g = parsed.data,
     people = new Set(g.inhabitants.map((p) => p.id)),
@@ -49,6 +61,7 @@ export function validateSave(
     new Set(g.buildings.map((b) => b.id)).size !== g.buildings.length ||
     new Set(g.traditions).size !== g.traditions.length ||
     new Set(g.commandLog.map((c) => c.id)).size !== g.commandLog.length ||
+    !validWorld(g, people) ||
     alive > 60 ||
     g.metrics.peak < alive ||
     g.nextPerson <=
@@ -77,22 +90,30 @@ export function validateSave(
     g.commandLog.some(
       (c) =>
         c.targetCycle > g.cycle ||
-        !(c.key === "decision"
-          ? (() => {
-              const [id, o, ...extra] = c.value.split("/");
-              return (
-                !extra.length &&
-                decisionById(id)?.options.some((x) => x.id === o) &&
-                g.destiny.resolved.some(
-                  (r) =>
-                    r.id === id && r.option === o && r.cycle === c.targetCycle,
-                )
-              );
-            })()
-          : c.key === "destination"
-            ? c.value === g.ending
-            : policySchema.safeParse({ ...g.policies, [c.key]: c.value })
-                .success),
+        !(c.key === "world"
+          ? WORLD_ACTIONS.includes(c.value as (typeof WORLD_ACTIONS)[number]) &&
+            g.history.some(
+              (e) =>
+                e.evidence.worldAction === c.value && e.cycle === c.targetCycle,
+            )
+          : c.key === "decision"
+            ? (() => {
+                const [id, o, ...extra] = c.value.split("/");
+                return (
+                  !extra.length &&
+                  decisionById(id)?.options.some((x) => x.id === o) &&
+                  g.destiny.resolved.some(
+                    (r) =>
+                      r.id === id &&
+                      r.option === o &&
+                      r.cycle === c.targetCycle,
+                  )
+                );
+              })()
+            : c.key === "destination"
+              ? c.value === g.ending
+              : policySchema.safeParse({ ...g.policies, [c.key]: c.value })
+                  .success),
     ) ||
     new Set(g.destiny.resolved.map((r) => r.id)).size !==
       g.destiny.resolved.length ||
@@ -123,6 +144,50 @@ export function validateSave(
         "A partida contém referências ou valores inconsistentes. O jogo atual foi preservado.",
     };
   return { ok: true, game: g };
+}
+function validWorld(g: Game, people: Set<string>) {
+  const w = g.world,
+    p = w.grove,
+    d = w.discovery,
+    v = w.voyage;
+  if (
+    p &&
+    (p.startedAt > g.cycle ||
+      p.progress > g.cycle - p.startedAt ||
+      new Set(p.workers).size !== p.workers.length ||
+      p.workers.some((id) => !people.has(id)) ||
+      (p.progress === 0 && p.workers.length > 0))
+  )
+    return false;
+  if (
+    v &&
+    (v.startedAt > g.cycle ||
+      (v.returnedAt !== null &&
+        (v.returnedAt > g.cycle || v.returnedAt < v.startedAt + 2)))
+  )
+    return false;
+  if (
+    w.commemoratedAt !== null &&
+    (w.commemoratedAt > g.cycle || w.commemoratedAt < 5)
+  )
+    return false;
+  if (
+    d.appearedAt !== null &&
+    (!p ||
+      p.progress !== 3 ||
+      d.appearedAt < p.startedAt + 4 ||
+      d.appearedAt > g.cycle)
+  )
+    return false;
+  if (
+    (d.resolvedAt === null) !== (d.choice === null) ||
+    (d.resolvedAt !== null &&
+      (d.appearedAt === null ||
+        d.resolvedAt <= d.appearedAt ||
+        d.resolvedAt > g.cycle))
+  )
+    return false;
+  return true;
 }
 export function parseSave(text: string) {
   if (new TextEncoder().encode(text).length > MAX_BYTES)

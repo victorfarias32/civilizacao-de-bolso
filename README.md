@@ -2,7 +2,7 @@
 
 Uma pequena sociedade. As regras que você escolhe. Uma história que chega ao fim.
 
-**Versão jogável — 0.2.1.** Inclui simulação local, mundo em pixel art inspirado em jogos de 16 bits, políticas, ambiente, gerações, eventos, crônica, 19 conselhos com três alternativas, nove destinos, seis influências que combinam cenários, salvamento e PWA. Publicação e limitações estão em [PUBLICACAO.md](docs/PUBLICACAO.md).
+**Versão jogável — 0.3.0.** Inclui simulação local, mundo em pixel art inspirado em jogos de 16 bits, políticas, ambiente, gerações, eventos, crônica, 19 conselhos com três alternativas, nove destinos, seis influências que combinam cenários, salvamento e PWA. Publicação e limitações estão em [PUBLICACAO.md](docs/PUBLICACAO.md).
 
 ## Jogar
 
@@ -13,6 +13,12 @@ Funde uma comunidade de 12 pessoas, escolha políticas e avance as estações. A
 O cenário acompanha até 40 anos (160 estações). Pode terminar antes por extinção ou, após 28 anos, por um destino preparado. O conselho pausa a simulação ao oferecer uma decisão: veja os efeitos de cada alternativa ou adie sem escolha automática. O painel **Destinos** mostra os requisitos reais e permite concluir uma história preparada. Aos 40 anos, um destino elegível é escolhido pelas influências acumuladas; na ausência deles, resta o legado dos fundadores. A crônica e o epílogo usam fatos da partida, sem IA externa. Não há backend de jogo nem progresso enquanto o aplicativo está fechado.
 
 O menu **Partida** permite salvar, importar e exportar JSON. O salvamento é automático e local ao domínio/navegador. Exporte histórias importantes; o navegador pode apagar dados locais. Após o primeiro carregamento completo, o aplicativo usa cache para funcionar offline.
+
+## Lugares interativos
+
+Toque no **observatório**, **porto** ou **memorial** para visitar seus cartões e realizar ações. No observatório, planeje um bosque, escolha o local no mapa e acompanhe a obra crescer. Depois da inauguração, investigue a luz entre as raízes e escolha entre pesquisa e preservação. O porto envia uma viagem de troca; o memorial guarda histórias e permite celebrar a fundação. Abrir um lugar pausa a simulação. [Regras e custos](docs/INTERACOES.md).
+
+Partidas antigas continuam compatíveis: as versões 0.1.0 e 0.2.0 migram ao carregar. O novo salvamento usa formato 3 e regras 0.3.0.
 
 ## Desenvolver pelo celular
 
@@ -52,7 +58,7 @@ As escolhas do conselho têm cores por influência principal, ícones, ganhos se
 
 ## Validação
 
-42 testes de regras/apresentação; 34 testes Playwright em desktop e perfil Android emulado, incluindo persistência das escolhas e comparação dos pixels dos cenários. [Regras dos novos destinos](docs/DESTINOS.md). A versão inicial também teve análise Axe dos quatro painéis e lote de 80 partidas. [Evidências e limitações](docs/validacao/RELEASE-v0.1.md).
+51 testes de regras/apresentação; 40 testes Playwright em desktop e perfil Android emulado, incluindo persistência das escolhas e comparação dos pixels dos cenários. [Regras dos novos destinos](docs/DESTINOS.md). A versão inicial também teve análise Axe dos quatro painéis e lote de 80 partidas. [Evidências e limitações](docs/validacao/RELEASE-v0.1.md).
 
 **Android físico ainda precisa de avaliação:** instalação real, leitor de tela, desempenho e retomada após encerrar o Chrome. Emulação não substitui esse aceite. Pesquisa extensa, facções e multiplayer continuam fora desta versão. Os destinos extraordinários atuais são caminhos de escolhas e condições, sem árvores extensas de tecnologia.
 

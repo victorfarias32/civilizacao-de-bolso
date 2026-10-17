@@ -92,6 +92,7 @@ export const commandSchema = z
       "extraction",
       "decision",
       "destination",
+      "world",
     ]),
     value: z.string().max(60),
   })
@@ -139,6 +140,7 @@ const eventSchema = z
       "ending",
       "decision",
       "discovery",
+      "project",
     ]),
     title: z.string().max(120),
     text: z.string().max(1200),
@@ -158,10 +160,44 @@ const effectSchema = z
     actorIds: z.array(z.string()).max(60),
   })
   .strict();
+export const worldSchema = z
+  .object({
+    grove: z
+      .object({
+        site: z.enum(["river", "village"]),
+        startedAt: integer.positive().max(160),
+        progress: integer.max(3),
+        workers: z.array(z.string().regex(/^h\d{3}$/)).max(2),
+      })
+      .strict()
+      .nullable(),
+    voyage: z
+      .object({
+        startedAt: integer.positive().max(160),
+        returnedAt: integer.positive().max(160).nullable(),
+      })
+      .strict()
+      .nullable(),
+    commemoratedAt: integer.positive().max(160).nullable(),
+    discovery: z
+      .object({
+        appearedAt: integer.positive().max(160).nullable(),
+        resolvedAt: integer.positive().max(160).nullable(),
+        choice: z.enum(["study", "protect"]).nullable(),
+      })
+      .strict(),
+  })
+  .strict();
+export const emptyWorld = (): z.infer<typeof worldSchema> => ({
+  grove: null,
+  voyage: null,
+  commemoratedAt: null,
+  discovery: { appearedAt: null, resolvedAt: null, choice: null },
+});
 export const gameSchema = z
   .object({
-    schemaVersion: z.literal(2),
-    rulesVersion: z.literal("0.2.0"),
+    schemaVersion: z.literal(3),
+    rulesVersion: z.literal("0.3.0"),
     scenarioId: z.literal("first-generation"),
     name: z.string().min(1).max(40),
     seed: integer.max(0xffffffff),
@@ -170,6 +206,7 @@ export const gameSchema = z
     status: z.enum(["running", "ended"]),
     ending: z.enum(ENDINGS).nullable(),
     destiny: destinySchema,
+    world: worldSchema,
     resources: z
       .object({
         food: integer.max(1_000_000_000),

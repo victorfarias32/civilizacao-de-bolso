@@ -79,7 +79,13 @@ export function drawTerritories(c: C, g: Game) {
           edge = ((x - d.x) / rx) ** 2 + ((y - d.y) / ry) ** 2;
         if (edge > 1 + (n % 11) / 80) continue;
         if (edge > 0.82 && n % 3 === 0) continue;
-        r(c, x, y, 3, 3, colors[n % 4]);
+        const patch = noise(
+          Math.floor(x / 18),
+          Math.floor(y / 16),
+          g.seed + PATHS.indexOf(key) * 91,
+        );
+        r(c, x, y, 3, 3, colors[patch % 9 < 6 ? 1 : patch % 9 === 6 ? 0 : 2]);
+        if (n % 17 === 0) r(c, x, y, 2, 1, colors[3]);
         if (key === "knowledge" && (x + y) % 12 < 3) {
           r(c, x, y, 3, 1, a.palette.snow ? "#91c9cf" : "#80ccd1");
         }
@@ -159,6 +165,16 @@ export function drawDistrictLife(c: C, g: Game) {
       r(c, x - 4, y - 16, 3, 1, "#cee5dc");
       r(c, x - 1, y - 12, 1, 10, "#b5c9be");
       r(c, x - 5, y + 3, 13, 3, "#496673");
+    }
+    if (s.knowledge >= 18) {
+      r(c, 168, 131, 35, 5, "#5d7882");
+      r(c, 170, 136, 3, 12, "#63808a");
+      r(c, 197, 136, 3, 12, "#63808a");
+      r(c, 171, 122, 15, 9, "#7cabb8");
+      r(c, 173, 123, 11, 5, "#b8e0d6");
+      r(c, 190, 119, 3, 13, "#b8ccc1");
+      r(c, 187, 118, 9, 3, "#6f9eaa");
+      r(c, 170, 131, 30, 1, "#cee3cc");
     }
     if (s.knowledge >= 24) {
       r(c, 111, 132, 45, 5, "#597e8c");

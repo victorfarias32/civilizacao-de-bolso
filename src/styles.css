@@ -1691,3 +1691,328 @@ strong {
 .choice-color-rail i {
   flex: 1;
 }
+
+.place-pin {
+  position: absolute;
+  z-index: 3;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 3px 5px;
+  border: 1px solid #c5c6a1;
+  background: #173c33e8;
+  color: #fff1c8;
+  border-radius: 8px;
+  font-size: 17px;
+  box-shadow: 0 2px 6px #172f3970;
+  line-height: 1.2;
+}
+.place-pin small {
+  font-size: 9px;
+  line-height: 1.3;
+}
+.place-pin:hover,
+.place-pin.active {
+  background: #47694e;
+  outline: 2px solid #e3c780;
+}
+.grove-pin {
+  background: #315f39ee;
+}
+.discovery-pin {
+  background: #553e75ee;
+  border-color: #edd7ef;
+}
+.discovery-pin.unresolved {
+  box-shadow:
+    0 0 0 3px #e8c5ff55,
+    0 0 15px #eed0f1;
+}
+.grove-candidate {
+  position: absolute;
+  z-index: 4;
+  transform: translate(-50%, -50%);
+  width: 78px;
+  min-height: 63px;
+  border: 2px dashed #d4e2a1;
+  border-radius: 13px;
+  background: #183d2ccf;
+  color: #f7efc7;
+  display: grid;
+  gap: 2px;
+  place-items: center;
+  line-height: 1.2;
+  font-size: 23px;
+  padding: 5px;
+}
+.grove-candidate small {
+  font-size: 10px;
+}
+.grove-candidate.selected {
+  background: #608357;
+  border-style: solid;
+  box-shadow: 0 0 0 4px #d4e2a144;
+}
+.world-touch-hint {
+  margin: 0;
+  padding: 8px 12px;
+  background: #203c32;
+  color: #e1e7cc;
+  font-size: 0.72rem;
+  line-height: 1.5;
+}
+.place-sheet {
+  padding: 18px;
+  background: #f4efdf;
+  color: #2f4438;
+  border-top: 3px solid #c2b384;
+  border-bottom: 1px solid #a7ac8d;
+  text-align: left;
+}
+.place-sheet p {
+  font-size: 0.85rem;
+  line-height: 1.65;
+}
+.place-sheet h3 {
+  font-size: 1.4rem;
+  margin: 4px 0 12px;
+}
+.place-heading {
+  display: flex;
+  gap: 8px;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.place-heading > button {
+  min-width: 44px;
+  min-height: 44px;
+  background: #dfdfcc;
+  border: 1px solid #a3ac91;
+  color: #294635;
+  border-radius: 8px;
+  font-size: 25px;
+}
+.place-sheet .eyebrow {
+  font-size: 0.65rem;
+  margin: 0;
+}
+.place-sheet .muted {
+  color: #59624e;
+}
+.place-link {
+  display: block;
+  width: 100%;
+  text-align: left;
+  white-space: normal;
+  background: #e3e9d2;
+  border: 1px solid #b4c099;
+  color: #294a36;
+  padding: 12px;
+  margin: 10px 0;
+  border-radius: 8px;
+  font-size: 0.82rem;
+}
+.place-action {
+  display: grid;
+  gap: 6px;
+  margin: 12px 0;
+}
+.place-action > button {
+  white-space: normal;
+  line-height: 1.5;
+  min-height: 44px;
+}
+.place-action > small {
+  font-size: 0.73rem;
+  color: #525e4b;
+  line-height: 1.5;
+}
+.place-status {
+  background: #e1e9d3;
+  border: 1px solid #a6b68b;
+  padding: 12px;
+  border-radius: 7px;
+}
+.grove-sites {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+.grove-sites button {
+  display: grid;
+  gap: 8px;
+  white-space: normal;
+  text-align: left;
+  padding: 12px;
+  border: 1px solid #a3b18d;
+  background: #e8ead8;
+  color: #2e4d35;
+  border-radius: 9px;
+  line-height: 1.5;
+}
+.grove-sites button[aria-pressed="true"] {
+  border: 2px solid #426d3d;
+  background: #dce8c6;
+  padding: 11px;
+}
+.grove-sites small {
+  font-size: 0.73rem;
+}
+.project-stages {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  padding: 0;
+  gap: 6px;
+  list-style: none;
+}
+.project-stages li {
+  display: grid;
+  gap: 6px;
+  font-size: 0.68rem;
+  line-height: 1.4;
+  padding: 8px 4px;
+  background: #e3e0d2;
+  border-radius: 6px;
+  text-align: center;
+}
+.project-stages li > span {
+  display: grid;
+  place-items: center;
+  border: 1px solid #989e87;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  margin: auto;
+}
+.project-stages .reached {
+  background: #d9e7c4;
+  color: #34552c;
+}
+.project-stages [aria-current="step"] {
+  outline: 2px solid #5e7e44;
+}
+.memorial-names {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  font-size: 0.75rem;
+}
+.memorial-names > span {
+  padding: 7px;
+  border-radius: 5px;
+  background: #e1e7d2;
+}
+.place-history article {
+  border-left: 2px solid #9baa88;
+  padding: 4px 12px;
+  margin: 10px 0;
+}
+.place-history strong,
+.place-history small {
+  display: block;
+}
+.place-history p {
+  margin: 6px 0;
+}
+.discovery-options {
+  display: grid;
+  gap: 12px;
+}
+.discovery-options article {
+  padding: 12px;
+  background: #ede4f3;
+  border: 1px solid #b5a0c5;
+  border-radius: 10px;
+}
+.discovery-options article:last-child {
+  background: #e1edd7;
+  border-color: #a4b991;
+}
+.discovery-options h4 {
+  margin: 3px 0;
+  font-size: 1rem;
+}
+@media (max-width: 380px) {
+  .place-sheet {
+    padding: 12px;
+  }
+  .grove-sites {
+    grid-template-columns: 1fr;
+  }
+  .place-pin {
+    min-width: 40px;
+    padding: 3px;
+  }
+  .place-pin small {
+    font-size: 8px;
+  }
+}
+.place-pin {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+}
+.place-pin > span {
+  display: grid;
+  place-items: center;
+  width: 25px;
+  height: 25px;
+  border: 1px solid #d1c397;
+  background: #173c33ed;
+  border-radius: 50%;
+  box-shadow: 0 2px 5px #10292066;
+}
+.place-pin small {
+  background: #173c33ed;
+  color: #fff1c8;
+  border-radius: 3px;
+  padding: 2px 4px;
+}
+.place-pin:hover,
+.place-pin.active {
+  background: transparent;
+  outline: 0;
+}
+.place-pin:hover > span,
+.place-pin.active > span {
+  background: #527349;
+  outline: 2px solid #e2ce8d;
+}
+.discovery-pin > span {
+  background: #634976;
+  border-color: #edddf2;
+}
+.discovery-pin.unresolved {
+  box-shadow: none;
+}
+.discovery-pin.unresolved > span {
+  box-shadow:
+    0 0 0 3px #e8c5ff55,
+    0 0 15px #eed0f1;
+}
+.grove-pin > span {
+  background: #3c643a;
+}
+
+.place-pin {
+  min-width: 44px;
+  min-height: 44px;
+}
+
+.place-pin small {
+  display: none;
+}
+.place-pin.active small,
+.place-pin:focus-visible small,
+.discovery-pin.unresolved small {
+  display: block;
+}
+.place-pin:focus-visible {
+  outline: 2px solid #e6cf8f;
+  outline-offset: 2px;
+  border-radius: 8px;
+}

@@ -766,6 +766,10 @@ export function applyDecision(g: Game, value: string, cycle: number): boolean {
       Object.entries(o.paths).map(([k, n]) => [`path_${k}`, n!]),
     ),
   });
+  registerMilestones(g, cycle);
+  return true;
+}
+export function registerMilestones(g: Game, cycle: number) {
   for (const path of PATHS)
     for (const mark of [24, 48]) {
       const key = `${path}:${mark}`;
@@ -781,7 +785,6 @@ export function applyDecision(g: Game, value: string, cycle: number): boolean {
         );
       }
     }
-  return true;
 }
 export function offerDecision(g: Game) {
   if (

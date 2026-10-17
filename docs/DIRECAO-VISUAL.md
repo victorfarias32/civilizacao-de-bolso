@@ -2,6 +2,12 @@
 
 Revisão: 17/10/2026. Pixel art inspirada em RPGs de 16 bits, com resolução lógica de 480 × 320, desenho em pixels inteiros e escala sem suavização. Não há dependência de imagens ou API externa.
 
+## Lugares e acontecimentos — 0.3.0
+
+Observatório, porto e memorial têm pontos de toque próprios. O bosque do jogador mostra marcação, andaimes, mudas e árvores adultas. A luz entre as raízes pode receber instrumentos ou proteção, preservando uma diferença visível após a escolha. Participantes reais trabalham junto ao projeto, visitam lugares em descanso e se reúnem no memorial.
+
+A textura do terreno dos bairros passou a usar manchas maiores e detalhes esparsos, dando destaque a pessoas e construções. [Regras e limitações das interações](INTERACOES.md).
+
 ## Escolhas e bairros — 0.2.1
 
 A alternativa assume a cor do maior ganho efetivo, respeitando o teto de 100. Empates exibem duas cores. Nomes e ícones acompanham todas as cores; a leitura não depende de distinguir as tonalidades.

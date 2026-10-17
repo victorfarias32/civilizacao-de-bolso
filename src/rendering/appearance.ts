@@ -9,6 +9,12 @@ export const EVENT_VISUALS: Record<
   HistoryEvent["type"],
   { label: string; detail: string; lasting: boolean }
 > = {
+  project: {
+    label: "Um projeto da comunidade",
+    detail:
+      "Marcação, plantio e crescimento deixam etapas visíveis na paisagem.",
+    lasting: true,
+  },
   decision: {
     label: "Uma escolha ganha forma",
     detail: "Projetos e paisagens refletem as decisões do conselho.",

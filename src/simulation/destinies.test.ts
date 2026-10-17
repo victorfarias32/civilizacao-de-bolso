@@ -109,7 +109,7 @@ describe("destinos construídos por escolhas", () => {
   it("migra a partida antiga sem apagar sua história e rejeita versões futuras", () => {
     let g = createGame();
     for (let i = 0; i < 8; i++) g = advanceSeason(g).state;
-    const { destiny: _, ...old } = g;
+    const { destiny: _, world: _world, ...old } = g;
     const result = validateSave({
       ...old,
       schemaVersion: 1,
@@ -123,7 +123,7 @@ describe("destinos construídos por escolhas", () => {
       expect(result.game.destiny.nextAt).toBe(9);
     }
     expect(
-      validateSave({ ...old, schemaVersion: 3, rulesVersion: "0.3.0" }).ok,
+      validateSave({ ...old, schemaVersion: 99, rulesVersion: "99" }).ok,
     ).toBe(false);
   });
   it("preserva decisão pendente no JSON e rejeita referências impossíveis", () => {

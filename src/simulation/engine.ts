@@ -1,3 +1,4 @@
+import { applyWorldAction, advanceWorld } from "./world";
 import {
   applyDecision,
   offerDecision,
@@ -10,6 +11,7 @@ import {
   type Game,
   type Ending,
   emptyDestiny,
+  emptyWorld,
   type Person,
   type Command,
   type HistoryEvent,
@@ -115,8 +117,8 @@ export function createGame(
 ): Game {
   const seed = (config.seed ?? 42) >>> 0;
   const g: Game = {
-    schemaVersion: 2,
-    rulesVersion: "0.2.0",
+    schemaVersion: 3,
+    rulesVersion: "0.3.0",
     scenarioId: "first-generation",
     name: config.name?.trim().slice(0, 40) || "Vale das Pequenas Luzes",
     seed,
@@ -125,6 +127,7 @@ export function createGame(
     status: "running",
     ending: null,
     destiny: emptyDestiny(),
+    world: emptyWorld(),
     resources: { food: 2400, wood: 400 },
     environment: { wildFood: 3600, fertility: 100, forest: 100 },
     inhabitants: [],
@@ -239,6 +242,13 @@ function applyCommands(g: Game, commands: Command[], cycle: number) {
       g.commandLog.length >= 1000
     )
       continue;
+    if (raw.key === "world") {
+      if (applyWorldAction(g, raw.value, cycle)) {
+        seen.add(raw.id);
+        g.commandLog.push({ ...raw });
+      }
+      continue;
+    }
     if (raw.key === "decision" || raw.key === "destination") {
       if (
         raw.key === "decision"
@@ -743,6 +753,7 @@ export function advanceSeason(
     );
   }
   g.cycle = cycle;
+  advanceWorld(g);
   offerDecision(g);
   finish(g);
   return { state: g, events: g.history.slice(startHistory) };
@@ -812,6 +823,16 @@ export function epilogue(g: Game): {
     paragraphs.push(
       `Entre as decisões que moldaram o destino: ${decisions
         .slice(-4)
+        .map((e) => e.text)
+        .join(" ")}`,
+    );
+  const worldEvents = g.history.filter(
+    (e) => e.type === "project" || e.evidence.worldAction,
+  );
+  if (worldEvents.length)
+    paragraphs.push(
+      `Também fizeram parte da história: ${worldEvents
+        .slice(-3)
         .map((e) => e.text)
         .join(" ")}`,
     );

@@ -1,3 +1,5 @@
+import { drawInteractiveWorld, drawWorldActivity } from "./interactiveWorld";
+import { worldVisit } from "../simulation/world";
 import {
   drawTerritories,
   drawDistrictLife,
@@ -789,6 +791,7 @@ export function createScene(g: Game): PixelScene {
   drawDistrictLife(o, g);
   drawProjects(o, g);
   drawDistrictMonuments(o, g);
+  drawInteractiveWorld(o, g);
   return {
     ground,
     props,
@@ -954,15 +957,36 @@ export function drawFrame(
           x = points[part].x + (points[part + 1].x - points[part].x) * q;
           y = points[part].y + (points[part + 1].y - points[part].y) * q;
         }
-        return { person, x: Math.round(x), y: Math.round(y), i };
+        const visit = worldVisit(g, person, i);
+        if (visit) {
+          x = visit.x + Math.sin(t / 1000 + i) * 1.5;
+          y = visit.y;
+        }
+        return { person, x: Math.round(x), y: Math.round(y), i, visit };
       })
       .sort((a, b) => a.y - b.y || a.i - b.i);
-  for (const { person, x, y, i } of villagers) {
+  for (const { person, x, y, i, visit } of villagers) {
     if (p.snow && person.activity !== "rest") {
       rect(c, x - 7, y + 6, 2, 1, "#8ca7af");
       rect(c, x - 10, y + 3, 2, 1, "#8ca7af");
     }
-    villager(c, person, x, y, frame + i, a, person.id === selected);
+    villager(
+      c,
+      visit?.kind === "build" ? { ...person, activity: "build" } : person,
+      x,
+      y,
+      frame + i,
+      a,
+      person.id === selected,
+    );
+    if (visit?.kind === "research") {
+      rect(c, x + 3, y - 8, 6, 4, "#d9e5c0");
+      rect(c, x + 5, y - 8, 1, 4, "#648d8d");
+    }
+    if (visit?.kind === "memorial") {
+      rect(c, x + 4, y - 7, 2, 3, "#87a966");
+      rect(c, x + 3, y - 8, 4, 2, "#e1b9c5");
+    }
     for (const tree of scene.occluders)
       if (tree.y > y && tree.y - 62 < y && Math.abs(tree.x - x) < 30)
         c.drawImage(
@@ -1122,5 +1146,6 @@ export function drawFrame(
   }
   drawDestination(c, g, t);
   drawPathAtmosphere(c, g, t);
+  drawWorldActivity(c, g, t);
   return hits;
 }
