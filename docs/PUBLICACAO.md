@@ -4,7 +4,7 @@ Estado: primeira versão jogável publicada com sucesso em 17/10/2026 às 10:29 
 
 Jogo: https://civilizacao-de-bolso-victor.espa-o-de-tr-2071.chatgpt.site
 
-Audiência: privada, preservando o acesso original da conta do titular. O código permanece público no GitHub.
+Audiência: pública desde 17/10/2026 às 10:35 UTC, por solicitação explícita do titular. Acesso anônimo verificado: HTTP 200, sem redirecionamento de login. O código permanece público no GitHub.
 
 Deploy confirmado pelo Sites: appgdep_6ad34ddaf2fc81919a4710e5aa980306.
 Versão: appgprj_6ad34caa6d888191a2e31215878b1c8d~appgver_94a2f94e12cc81919912651b1475ac49.
@@ -21,13 +21,13 @@ Se o titular escolher Pages posteriormente: Settings → Pages → Source: GitHu
 
 ## Sites
 
-Identidade persistida em `.openai/hosting.json`; não criar outro Site para esta versão. Manter a audiência privada original até uma mudança explícita. O repositório GitHub continua sendo a fonte pública do projeto; a hospedagem só serve os arquivos estáticos.
+Identidade persistida em `.openai/hosting.json`; não criar outro Site para esta versão. O titular solicitou e autorizou a audiência pública. O repositório GitHub continua sendo a fonte pública do projeto; a hospedagem só serve os arquivos estáticos.
 
 Build na raiz: `npm run build -- --base=/`. Publicar exatamente o código enviado ao repositório de origem Sites e o arquivo de build correspondente. Credenciais de publicação são temporárias e não podem ser gravadas no repositório ou em arquivos.
 
 ## Dados do jogador
 
-Salvamentos pertencem ao domínio e perfil do navegador. Exportar JSON antes de mudar de hospedagem. A execução é local; nenhuma conta é necessária para as regras do jogo, embora o provedor de hospedagem privada possa exigir acesso do titular.
+Salvamentos pertencem ao domínio e perfil do navegador. Exportar JSON antes de mudar de hospedagem. A execução é local; nenhuma conta é necessária para as regras do jogo, e a hospedagem atual é pública, sem login no ChatGPT.
 
 ## Recuperação
 
