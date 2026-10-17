@@ -1,5 +1,19 @@
 # Publicação e operação
 
+## Revisão visual publicada
+
+A revisão em pixel art foi publicada com sucesso em 17/10/2026 às 11:04 UTC, preservando o acesso público sem login.
+
+- Commit de implementação no GitHub: 9c0a12a.
+- Commit de origem Sites: ed64d0498279731aab51698896a5706ef1935e79.
+- Versão Sites: appgprj_6ad34caa6d888191a2e31215878b1c8d~appgver_7ba9bc57aeac8191b296de99fcf2fc93.
+- Deploy: appgdep_6ad35633bd148191a2300008053c8ef4, confirmado succeeded.
+- [Direção visual, capturas e verificações](DIRECAO-VISUAL.md).
+
+Se o navegador ainda estiver usando a versão anterior em cache, usar Guardar e atualizar quando o aplicativo avisar. Os salvamentos continuam compatíveis.
+
+## Primeira publicação
+
 Estado: primeira versão jogável publicada com sucesso em 17/10/2026 às 10:29 UTC.
 
 Jogo: https://civilizacao-de-bolso-victor.espa-o-de-tr-2071.chatgpt.site
